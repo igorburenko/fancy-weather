@@ -4,6 +4,7 @@
 @import "utils/fonts";
 @import "utils/reset";
 
+
 html {
   line-height: $mainLineHeight;
   font-size: $mainFontSize;
@@ -90,17 +91,54 @@ section,
   flex: 0 0 auto;
   position: relative;
   margin: 0 auto;
-  max-width: $desktopWidth;
-  @media screen and (max-width: $smDesktopWidth) {
-    max-width: $tableWidth;
+  max-width: 1440px;
+  @media screen and (max-width: 1024px) {
+    max-width: calc(100vw - 40px);
+    //max-width: $tableWidth;
+    .card {
+      margin: 15px 10px;
+    }
   }
-  @media screen and (max-width: $tableWidth) {
-    max-width: $phoneWidth;
+  @media screen and (max-width: 768px) {
+    //max-width: $phoneWidth;
+    max-width: calc(100vw - 20px);
+
+    .card {
+      margin: 20px 15px;
+    }
+
   }
-  @media screen and (max-width: $phoneWidth) {
-    max-width: $smPhoneWidth;
+  @media screen and (max-width: 500px) {
+    .main-wrapper {
+      margin: 0;
+    }
+  }
+
+  @media screen and (max-width: 375px) {
+    max-width: 100vw;
+
+    .card {
+      margin: 10px 5px;
+    }
+    //max-width: $smPhoneWidth;
   }
 }
 
-// Modules:
-// example: @import "modules/my-module.scss";
+.hide {
+  display: none;
+}
+
+//Colors:
+.color-main { color: #85d6de; }
+.color-pink { color: #de9bc2; }
+.color-yellow { color: #decf6e; }
+.color-main-dark { color: #498b91; }
+.color-yellow-dark { color: #918850; }
+
+ //Modules:
+@import "modules/card";
+@import "modules/nav-menu";
+@import "modules/icons";
+@import "modules/switches";
+@import "modules/header";
+@import "modules/main-window";

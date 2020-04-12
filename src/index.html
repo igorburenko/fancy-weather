@@ -1,37 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Webpack Template</title>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>English for kids</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <header class="header">
+    <!--  <div class="burger header__burger"></div>-->
+    <div class="header__burger">
+      <i class="material-icons md-dark md-36">menu</i>
+      <i class="material-icons md-dark md-36 hide">close</i>
+    </div>
 
-    <div class="wrapper"> <!-- main wrapper -->
+    <!-- Switch -->
+    <div class="switch header__switch">
+      <label>
+        <input type="checkbox" checked>
+        <span class="lever">TRAIN</span>
+      </label>
+    </div>
 
-      <div id="app"> <!-- #app wrapper for vue -->
+  </header>
+  <nav class="menu close">
+    <ul class="menu__items">
+      <li><span class="menu__item menu-item_active">Main Page</span></li>
+      <li><span class="menu__item" id="categories">Categories</span></li>
+      <li class="menu__category">
+        <ul class="menu__category-list hide close-zoom-up">
+          <li class="category-item" id="0">Action (set A)</li>
+          <li class="category-item" id="1">Action (set B)</li>
+          <li class="category-item" id="2">Animal (set A)</li>
+          <li class="category-item" id="3">Animal (set B)</li>
+          <li class="category-item" id="4">Clothes</li>
+          <li class="category-item" id="5">Emotions</li>
+          <li class="category-item" id="6">Kitchen Tools</li>
+          <li class="category-item" id="7">Fruits</li>
+        </ul>
+      </li>
+      <li><span class="menu__item">Statistic</span></li>
+    </ul>
+  </nav>
+  <main class="main-wrapper">
+    <div class="results">
+      <span class="material-icons rose md-30">star</span>
+      <span class="material-icons gray md-30">star</span>
+    </div>
+    <div class="cards"></div>
+<!--    <div class="cards">-->
+<!--      <div class="card card__category">-->
+<!--        <img src="./assets/img/dance.jpg" alt="Action (set A)">-->
+<!--        Action (set A)-->
+<!--      </div>-->
+<!--      <div class="card train-card" >-->
+<!--        <div class="train-card__front" style="background-image: url('/assets/img/cat.jpg');">-->
+<!--          <p>Cat</p>-->
+<!--          <i class="material-icons md-dark md-30">360</i>-->
+<!--        </div>-->
+<!--        <div class="train-card__back " style="background-image: url('/assets/img/cat.jpg');">-->
+<!--          <p>Кошка</p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="card card__game" style="background-image: url('/assets/img/dog.jpg');">-->
+<!--        <div class="train-card__front" >-->
+<!--          <p class="hide">Cat</p>-->
+<!--          <i class="material-icons md-dark md-30 hide">360</i>-->
+<!--        </div>-->
+<!--        <div class="train-card__back hide">-->
+<!--          <img src="./assets/img/cat.jpg" alt="dance">-->
+<!--          <p>Кошка</p>-->
+<!--        </div>-->
+<!--      <div class="card card__category"></div>-->
+<!--      <div class="card card__train"></div>-->
+<!--      <div class="card card__game"></div>-->
+<!--      <div class="card card__category"></div>-->
+<!--      <div class="card card__train"></div>-->
+<!--      </div>-->
 
-        <header></header>
-
-        <!-- only content wrapper -->
-        <div class="content-wrapper">
-
-          <!--  expamle section -->
-          <section id="promo" style="text-align:center;">
-            <div class="container">
-              <h1>Webpack Template</h1>
-            </div>
-          </section>
-
-          <!-- expamle vue component -->
-          <example-component />
-
-        </div> <!-- end content wrapper -->
-
-        <footer></footer>
-
-      </div> <!-- end #app wrapper -->
-    </div> <!-- end main wrapper -->
-  </body>
+<!--    </div>-->
+  </main>
+</div>
+</body>
 </html>

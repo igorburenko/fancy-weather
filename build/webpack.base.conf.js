@@ -66,9 +66,19 @@ module.exports = {
         // images / icons
         test: /\.(png|jpg|gif|svg)$/,
         loader: "file-loader",
+        include: path.join(__dirname, 'assets/img'),
         options: {
           name: "[name].[ext]"
         }
+      },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [{
+          loader: 'url-loader',
+          options: {
+            limit: 8192 // in bytes
+          }
+        }]
       },
       {
         // scss

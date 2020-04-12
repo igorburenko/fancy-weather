@@ -1,4 +1,10 @@
-// Main js file
-// see more: https://github.com/vedees/webpack-template/blob/master/README.md#import-js-files
+// import cards from './cardsArray';
+import NavMenu from './nav-menu';
+import { Card, CategoryCard, makeCategoryField, makeTrainField } from './card';
 
-console.log("its work");
+
+const menu = new NavMenu();
+menu.init();
+
+// makeCategoryField();
+makeTrainField(7);

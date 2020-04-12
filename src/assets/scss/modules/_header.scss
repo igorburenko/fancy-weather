@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  margin: 45px 40px 10px;
+  justify-content: space-between;
+  max-width: 1350px;
+}
+
+.header__burger {
+  z-index: 500;
+  cursor: pointer;
+}
+
+.header__switch {
+
+}
