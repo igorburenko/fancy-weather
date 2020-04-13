@@ -81,6 +81,15 @@ module.exports = {
         }]
       },
       {
+        // music / mp3
+        test: /\.(mp3|wav)$/,
+        loader: "file-loader",
+        include: path.join(__dirname, 'assets/audio'),
+        options: {
+          name: "[name].[ext]"
+        }
+      },
+      {
         // scss
         test: /\.scss$/,
         use: [
@@ -135,6 +144,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: `${PATHS.src}/${PATHS.assets}img`, to: `${PATHS.assets}img` },
+      { from: `${PATHS.src}/${PATHS.assets}audio`, to: `${PATHS.assets}audio` },
       { from: `${PATHS.src}/${PATHS.assets}fonts`, to: `${PATHS.assets}fonts` },
       { from: `${PATHS.src}/static`, to: "" }
     ]),

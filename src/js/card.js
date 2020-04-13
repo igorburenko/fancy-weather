@@ -5,7 +5,7 @@ class Card {
     this.word = word;
     this.translation = translation;
     this.image = `/assets/${image}`;
-    this.audioSrc = audioSrc;
+    this.audioSrc = `/assets/${audioSrc}`;
   }
 
   renderCard() {
@@ -36,10 +36,15 @@ class Card {
     const backTitle = document.createElement('p');
     backTitle.textContent = this.translation;
 
+    const cardAudio = document.createElement('audio');
+    cardAudio.src = this.audioSrc;
+    // cardAudio.src = this.audioSrc;
+
     cardBack.appendChild(backTitle);
 
     card.appendChild(cardFront);
     card.appendChild(cardBack);
+    card.appendChild(cardAudio);
 
     card.addEventListener('click', event => Card.onClick(event));
     card.addEventListener('mouseleave', event => this.mouseLeave(event));
@@ -51,6 +56,15 @@ class Card {
   static onClick(event) {
     if (event.target.tagName === 'I') {
       event.target.offsetParent.offsetParent.classList.add('rotate');
+    } else {
+      // event.target.querySelector('audio').play();
+      // console.log(event.path[1].querySelector('audio'));
+      event.path[1].querySelector('audio').play();
+
+      // const audio = new Audio(require(this.audioSrc));
+      // audio.play();
+
+      // const audio = new Audio(this.audioSrc);
     }
   }
 
