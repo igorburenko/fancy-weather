@@ -41,18 +41,17 @@ class Card {
     card.appendChild(cardFront);
     card.appendChild(cardBack);
 
-    card.addEventListener('click', event => this.onClick(event));
+    card.addEventListener('click', event => Card.onClick(event));
     card.addEventListener('mouseleave', event => this.mouseLeave(event));
 
     cardContainer.appendChild(card);
     return cardContainer;
   }
 
-  onClick(event) {
+  static onClick(event) {
     if (event.target.tagName === 'I') {
-      event.toElement.offsetParent.offsetParent.classList.add('rotate');
+      event.target.offsetParent.offsetParent.classList.add('rotate');
     }
-    // console.log('click');
   }
 
   mouseLeave(event) {

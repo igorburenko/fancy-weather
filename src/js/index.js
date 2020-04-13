@@ -7,4 +7,4 @@ const menu = new NavMenu();
 menu.init();
 
 // makeCategoryField();
-makeTrainField(7);
+makeTrainField(3);
