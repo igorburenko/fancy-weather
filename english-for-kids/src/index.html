@@ -10,7 +10,6 @@
 <body class="background_blue">
 <div class="container">
   <header class="header">
-    <!--  <div class="burger header__burger"></div>-->
     <div class="header__burger">
       <i class="material-icons md-dark md-36">menu</i>
       <i class="material-icons md-dark md-36 hide">close</i>
@@ -19,33 +18,33 @@
     <!-- Switch -->
     <div class="switch header__switch">
       <label>
-        <input type="checkbox" checked>
+        <input class="train__switch" type="checkbox" checked>
         <span class="lever">TRAIN</span>
       </label>
     </div>
 
   </header>
-  <nav class="menu close">
+  <nav class="menu global__color close">
     <ul class="menu__items">
-      <li><span class="menu__item menu-item_active">Main Page</span></li>
+      <li><span class="menu__item menu-item_active" id="main_page">Main Page</span></li>
       <li><span class="menu__item" id="categories">Categories</span></li>
       <li class="menu__category">
         <ul class="menu__category-list hide close-zoom-up">
-          <li class="category-item" id="0">Action (set A)</li>
-          <li class="category-item" id="1">Action (set B)</li>
-          <li class="category-item" id="2">Animal (set A)</li>
-          <li class="category-item" id="3">Animal (set B)</li>
-          <li class="category-item" id="4">Clothes</li>
-          <li class="category-item" id="5">Emotions</li>
-          <li class="category-item" id="6">Kitchen Tools</li>
-          <li class="category-item" id="7">Fruits</li>
+          <li class="category-item" data-id="0">Action (set A)</li>
+          <li class="category-item" data-id="1">Action (set B)</li>
+          <li class="category-item" data-id="2">Animal (set A)</li>
+          <li class="category-item" data-id="3">Animal (set B)</li>
+          <li class="category-item" data-id="4">Clothes</li>
+          <li class="category-item" data-id="5">Emotions</li>
+          <li class="category-item" data-id="6">Kitchen Tools</li>
+          <li class="category-item" data-id="7">Fruits</li>
         </ul>
       </li>
-      <li><span class="menu__item">Statistic</span></li>
+      <li><span class="menu__item" id="statistic">Statistic</span></li>
     </ul>
   </nav>
   <main class="main-wrapper">
-    <div class="results">
+    <div class="results hide_opacity">
       <span class="material-icons rose md-30">star</span>
       <span class="material-icons gray md-30">star</span>
     </div>

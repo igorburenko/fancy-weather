@@ -87,6 +87,14 @@ section,
   min-height: 100vh;
 }
 
+.global__color {
+  background: #86d6de;
+}
+
+.global-second__color {
+  background: #decf6e;
+}
+
 .container {
   width: 100%;
   flex: 0 0 auto;
@@ -127,6 +135,10 @@ section,
 
 .hide {
   display: none;
+}
+
+.hide_opacity {
+  opacity: 0;
 }
 
 //Colors:

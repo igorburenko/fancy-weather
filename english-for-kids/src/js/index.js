@@ -1,5 +1,5 @@
 // import NavMenu from './nav-menu';
-import { makeCategoryField, makeTrainField, menu } from './controller';
+import makeCategoryField from './controller';
 
 window.onload = function () {
   // makeCategoryField();

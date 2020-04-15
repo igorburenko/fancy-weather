@@ -4,7 +4,7 @@
   left: 0;
   min-width: 320px;
   height: 100vh;
-  background: #86d6de;
+  //background: #86d6de;
   transition: .3s ease;
   color: #515151;
   z-index: 100;
@@ -37,6 +37,10 @@
 }
 .category-item_active {
   background-color: #decf6e;
+}
+
+.category-item_active_second_color {
+  background: #86d6de;
 }
 
 .menu-item_active {

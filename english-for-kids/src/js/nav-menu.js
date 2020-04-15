@@ -1,56 +1,44 @@
 class NavMenu {
   constructor() {
+    this.state = {
+      trainMode: true,
+      categoryItem: undefined,
+    };
     this.elements = {
       menu: document.querySelector('.menu'),
-      menuItems: document.querySelector('.menu__item'),
+      menuList: document.querySelector('.menu__items'),
+      menuItems: document.querySelectorAll('.menu__item'),
       categoriesList: document.querySelector('.menu__category-list'),
       categoryItems: document.querySelectorAll('.category-item'),
       menuButton: document.querySelector('.header__burger'),
     };
   }
-  //
-  // init() {
-  //   const menuButton = document.querySelector('.header__burger');
-  //   const menuItems = document.querySelector('.menu__items');
-  //   menuButton.addEventListener('click', () => this.toggleMenu());
-  //   menuItems.addEventListener('click', event => this.changeMenuItem(event));
-  // }
-
   // TODO: генерировать список  меню категориес из массива карточек
 
   toggleMenu() {
     this.elements.menu.classList.toggle('close');
   }
 
-  changeMenuItem(event) {
-    if (event.target.tagName === 'SPAN') {
-      this.activateMenuItem(event);
-      this.activateCategoryItem(event, true);
-      if (event.target.textContent === 'Main Page') {
-        NavMenu.loadMainMenu();
-      }
-      if (event.target.id === 'categories') {
-        this.showCategoriesMenu();
-      } else {
-        this.hideCategoriesMenu();
-        this.toggleMenu();
-      }
-    } else if (event.target.tagName === 'LI') {
-      NavMenu.loadCategory(event.target.id);
-      this.activateCategoryItem(event);
-      this.toggleMenu();
-    }
-  }
-
-  activateMenuItem(event) {
+  activateMenuItem(itemId) {
     this.elements.menuItems.forEach(item => item.classList.remove('menu-item_active'));
-    event.target.classList.add('menu-item_active');
+    this.elements.menuItems.forEach((item) => {
+      if (item.id === itemId) {
+        item.classList.add('menu-item_active');
+      }
+    });
   }
 
-  activateCategoryItem(event, deactivate = false) {
-    this.elements.categoryItems.forEach(item => item.classList.remove('category-item_active'));
-    if (!deactivate) {
-      event.target.classList.add('category-item_active');
+  deactivateCategoryItem() {
+    this.elements.categoryItems.forEach(item => item.classList.remove('category-item_active', 'category-item_active_second_color'));
+    this.state.categoryItem = undefined;
+  }
+
+  activateCategoryItem(itemId) {
+    if (itemId) {
+      this.deactivateCategoryItem();
+      const color = this.state.trainMode ? 'category-item_active' : 'category-item_active_second_color';
+      this.elements.categoryItems[itemId].classList.add(color);
+      this.state.categoryItem = itemId;
     }
   }
 
@@ -64,14 +52,6 @@ class NavMenu {
   hideCategoriesMenu() {
     this.elements.categoriesList.classList.add('close-zoom-up');
     this.elements.categoriesList.classList.add('hide');
-  }
-
-  static loadMainMenu() {
-    makeCategoryField();
-  }
-
-  static loadCategory(categoryNumber) {
-    makeTrainField(categoryNumber);
   }
 }
 
