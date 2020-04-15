@@ -1,23 +1,22 @@
-import { makeCategoryField, makeTrainField } from './card';
-
 class NavMenu {
   constructor() {
     this.elements = {
       menu: document.querySelector('.menu'),
-      menuItems: document.querySelectorAll('.menu__item'),
+      menuItems: document.querySelector('.menu__item'),
       categoriesList: document.querySelector('.menu__category-list'),
       categoryItems: document.querySelectorAll('.category-item'),
+      menuButton: document.querySelector('.header__burger'),
     };
   }
+  //
+  // init() {
+  //   const menuButton = document.querySelector('.header__burger');
+  //   const menuItems = document.querySelector('.menu__items');
+  //   menuButton.addEventListener('click', () => this.toggleMenu());
+  //   menuItems.addEventListener('click', event => this.changeMenuItem(event));
+  // }
 
-  init() {
-    const menuButton = document.querySelector('.header__burger');
-    const menuItems = document.querySelector('.menu__items');
-    menuButton.addEventListener('click', () => this.toggleMenu());
-    menuItems.addEventListener('click', event => this.changeMenuItem(event));
-  }
-
-  // TODO: сделать забор и генерацию  меню категориес из массива карточек
+  // TODO: генерировать список  меню категориес из массива карточек
 
   toggleMenu() {
     this.elements.menu.classList.toggle('close');
@@ -28,7 +27,7 @@ class NavMenu {
       this.activateMenuItem(event);
       this.activateCategoryItem(event, true);
       if (event.target.textContent === 'Main Page') {
-        this.loadMainMenu();
+        NavMenu.loadMainMenu();
       }
       if (event.target.id === 'categories') {
         this.showCategoriesMenu();
@@ -37,8 +36,7 @@ class NavMenu {
         this.toggleMenu();
       }
     } else if (event.target.tagName === 'LI') {
-      // console.log(event.target.id);
-      this.loadCategory(event.target.id);
+      NavMenu.loadCategory(event.target.id);
       this.activateCategoryItem(event);
       this.toggleMenu();
     }
@@ -68,11 +66,11 @@ class NavMenu {
     this.elements.categoriesList.classList.add('hide');
   }
 
-  loadMainMenu() {
+  static loadMainMenu() {
     makeCategoryField();
   }
 
-  loadCategory(categoryNumber) {
+  static loadCategory(categoryNumber) {
     makeTrainField(categoryNumber);
   }
 }

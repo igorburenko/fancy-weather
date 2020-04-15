@@ -19,58 +19,45 @@ class Card {
     cardFront.classList.add('train-card__front');
     cardFront.setAttribute('style', `background-image: url(${this.image})`);
 
-    const frontTitle = document.createElement('p');
-    frontTitle.textContent = this.word;
+    cardFront.textContent = this.word;
 
     const iconTurn = document.createElement('i');
     iconTurn.classList.add('material-icons', 'md-dark', 'md-30');
     iconTurn.textContent = '360';
 
-    cardFront.appendChild(frontTitle);
     cardFront.appendChild(iconTurn);
 
     const cardBack = document.createElement('div');
     cardBack.classList.add('train-card__back');
     cardBack.setAttribute('style', `background-image: url(${this.image})`);
 
-    const backTitle = document.createElement('p');
-    backTitle.textContent = this.translation;
+    cardBack.textContent = this.translation;
 
     const cardAudio = document.createElement('audio');
     cardAudio.src = this.audioSrc;
-    // cardAudio.src = this.audioSrc;
-
-    cardBack.appendChild(backTitle);
 
     card.appendChild(cardFront);
     card.appendChild(cardBack);
     card.appendChild(cardAudio);
 
-    card.addEventListener('click', event => Card.onClick(event));
-    card.addEventListener('mouseleave', event => this.mouseLeave(event));
+    card.addEventListener('click', event => Card.onCardClick(event));
+    card.addEventListener('mouseleave', event => Card.mouseLeaveCard(event));
 
     cardContainer.appendChild(card);
     return cardContainer;
   }
 
-  static onClick(event) {
+  static onCardClick(event) {
     if (event.target.tagName === 'I') {
       event.target.offsetParent.offsetParent.classList.add('rotate');
     } else {
-      // event.target.querySelector('audio').play();
-      // console.log(event.path[1].querySelector('audio'));
+      // console.log(event);
       event.path[1].querySelector('audio').play();
-
-      // const audio = new Audio(require(this.audioSrc));
-      // audio.play();
-
-      // const audio = new Audio(this.audioSrc);
     }
   }
 
-  mouseLeave(event) {
+  static mouseLeaveCard(event) {
     event.target.classList.remove('rotate');
-    // console.log(event);
   }
 }
 
@@ -96,27 +83,42 @@ class CategoryCard {
     return cardCategory;
   }
 }
-
-function makeCategoryField() {
-  const field = document.createElement('div');
-  field.classList.add('cards');
-  category.forEach((cardsCategory, index) => {
-    const card = new CategoryCard(cardsCategory, cards[index][0].image, index);
-    field.append(card.renderCard());
-  });
-  document.querySelector('.cards').replaceWith(field);
-}
-
-function makeTrainField(categoryNumber) {
-  const field = document.createElement('div');
-  field.classList.add('cards');
-  cards[categoryNumber].forEach((card) => {
-    const element = new Card(card.word, card.translation, card.image, card.audioSrc);
-    field.append(element.renderCard());
-  });
-  document.querySelector('.cards').replaceWith(field);
-}
+//
+// function makeTrainField(categoryNumber) {
+//   const field = document.createElement('div');
+//   field.classList.add('cards');
+//   field.id = 'cards-container';
+//   cards[categoryNumber].forEach((card) => {
+//     const element = new Card(card.word, card.translation, card.image, card.audioSrc);
+//     field.append(element.renderCard());
+//   });
+//   document.querySelector('.cards').replaceWith(field);
+// }
+//
+// function setCategory(event) {
+//   if (event.toElement.id !== 'cards-container') {
+//     const categoryId = event.path.reverse()[7].id;
+//     makeTrainField(categoryId);
+//     // menu.showCategoriesMenu();
+//     // menu.activateMenuItem(event);
+//     // menu.activateCategoryItem(event);
+//
+//     // TODO: активирует пункт меню который выбарн
+//   }
+// }
+//
+// function makeCategoryField() {
+//   const field = document.createElement('div');
+//   field.classList.add('cards');
+//   field.id = 'cards-container';
+//   category.forEach((cardsCategory, index) => {
+//     const card = new CategoryCard(cardsCategory, cards[index][0].image, index);
+//     field.append(card.renderCard());
+//   });
+//   field.addEventListener('click', event => setCategory(event));
+//   document.querySelector('.cards').replaceWith(field);
+// }
 
 export {
-  Card, CategoryCard, makeCategoryField, makeTrainField,
+  Card, CategoryCard,
 };

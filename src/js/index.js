@@ -1,10 +1,12 @@
-// import cards from './cardsArray';
-import NavMenu from './nav-menu';
-import { Card, CategoryCard, makeCategoryField, makeTrainField } from './card';
+// import NavMenu from './nav-menu';
+import { makeCategoryField, makeTrainField, menu } from './controller';
 
+window.onload = function () {
+  // makeCategoryField();
+  makeCategoryField();
+};
 
-const menu = new NavMenu();
-menu.init();
+// menu.showCategoriesMenu();
+// menu.activateMenuItem(event);
+// menu.activateCategoryItem(event);
 
-// makeCategoryField();
-makeTrainField(3);
