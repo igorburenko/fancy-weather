@@ -1,0 +1,45 @@
+.stats__btn-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
+}
+
+.stat__button {
+  color: #515151;
+  font-weight: 500;
+  margin: 5px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  background: #85d6de;
+}
+
+.stats__table {
+  margin-top: 20px;
+  color: #515151;
+}
+
+.stats__category-row {
+  border: 1px solid rgba(73, 139, 145, 0.39);
+  justify-content: center;
+  background: rgba(133, 214, 222, 0.44);
+}
+
+.stats__category-cell-name {
+  text-align: center;
+  padding: 5px 0;
+}
+
+.stats__category-word-name {
+  font-size: 17px;
+  padding: 3px 4px;
+  background: rgba(230, 215, 123, 0.42);
+  text-align: center;
+  border: 1px solid rgba(73, 139, 145, 0.39);
+}
+
+.statistic__icons {
+  vertical-align: bottom;
+  text-align: center;
+  padding: 0 4px;
+}

@@ -5,6 +5,16 @@
 @import "utils/reset";
 //@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
+//Modules:
+@import "modules/card";
+@import "modules/nav-menu";
+@import "modules/icons";
+@import "modules/switches";
+@import "modules/header";
+@import "modules/main-window";
+@import "modules/statistic";
+
+
 
 html {
   line-height: $mainLineHeight;
@@ -116,6 +126,10 @@ section,
       margin: 20px 15px;
     }
 
+    .stats__category-word-name {
+      font-size: 16px;
+    }
+
   }
   @media screen and (max-width: 500px) {
     .main-wrapper {
@@ -124,6 +138,10 @@ section,
     .header {
       padding-left: 35px;
       padding-right: 35px;
+    }
+
+    .stats__category-word-name {
+      font-size: 15px;
     }
   }
 
@@ -139,6 +157,9 @@ section,
       padding-right: 13px;
       margin-left: 10px;
       margin-right: 10px;
+    }
+    .stats__category-word-name {
+      font-size: 12px;
     }
   }
 }
@@ -158,10 +179,3 @@ section,
 .color-main-dark { color: #498b91; }
 .color-yellow-dark { color: #918850; }
 
- //Modules:
-@import "modules/card";
-@import "modules/nav-menu";
-@import "modules/icons";
-@import "modules/switches";
-@import "modules/header";
-@import "modules/main-window";

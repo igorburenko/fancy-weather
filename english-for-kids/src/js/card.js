@@ -7,12 +7,13 @@ class Card {
     this.audioSrc = `/assets/${audioSrc}`;
   }
 
-  renderCard() {
+  renderCard(addStatCounter) {
     const cardContainer = document.createElement('div');
     cardContainer.classList.add('card__container');
 
     const card = document.createElement('div');
     card.classList.add('card', 'train-card');
+    card.dataset.id = this.word;
 
     const cardFront = document.createElement('div');
     cardFront.classList.add('train-card__front');
@@ -39,14 +40,16 @@ class Card {
     card.appendChild(cardBack);
     card.appendChild(cardAudio);
 
-    card.addEventListener('click', event => Card.onCardClick(event));
+    card.addEventListener('click', event => Card.onCardClick(event, addStatCounter));
     card.addEventListener('mouseleave', event => Card.mouseLeaveCard(event));
 
     cardContainer.appendChild(card);
     return cardContainer;
   }
 
-  static onCardClick(event) {
+  static onCardClick(event, addStatCounter) {
+    console.dir(event.currentTarget.dataset.id);
+    addStatCounter(event.currentTarget.dataset.id, 'trainCount');
     if (event.target.tagName === 'I') {
       event.target.offsetParent.offsetParent.classList.add('rotate');
     } else {
@@ -64,6 +67,7 @@ class GameCard extends Card {
     const card = document.createElement('div');
     card.classList.add('card', 'card__game');
     card.setAttribute('style', `background-image: url(${this.image})`);
+    card.dataset.id = this.word;
 
     const cardAudio = document.createElement('audio');
     cardAudio.src = this.audioSrc;

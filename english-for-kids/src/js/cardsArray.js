@@ -34,10 +34,10 @@ const cards = [
       audioSrc: 'audio/draw.mp3',
     },
     {
-      word: 'fish',
-      translation: 'ловить рыбу',
-      image: 'img/fish.jpg',
-      audioSrc: 'audio/fish.mp3',
+      word: 'sit',
+      translation: 'сидеть',
+      image: 'img/sit.jpg',
+      audioSrc: 'audio/sit.mp3',
     },
     {
       word: 'fly',
@@ -97,7 +97,7 @@ const cards = [
     },
     {
       word: 'skip',
-      translation: 'пропускать, прыгать',
+      translation: 'прыгать',
       image: 'img/skip.jpg',
       audioSrc: 'audio/skip.mp3',
     },

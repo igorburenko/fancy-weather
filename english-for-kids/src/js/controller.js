@@ -2,10 +2,12 @@ import NavMenu from './nav-menu';
 import { cards, category } from './cardsArray';
 import { Card, GameCard, CategoryCard } from './card';
 import Game from './gameController';
+import Statistic from './statistic';
 
 const trainSwitch = document.querySelector('.train__switch');
 let menu;
 let game = { gameStart: false };
+const statistic = new Statistic();
 
 const resultsBar = {
   resBar: document.querySelector('.results'),
@@ -26,15 +28,17 @@ function makeTrainField(categoryNumber) {
   field.id = 'cards-container';
   cards[categoryNumber].forEach((card) => {
     const element = new Card(card.word, card.translation, card.image, card.audioSrc);
-    field.append(element.renderCard());
+    field.append(element.renderCard(Statistic.addToStats));
   });
   document.querySelector('.cards').replaceWith(field);
 }
 
 
 function receiveAnswer(event) {
+  // console.dir(game.gameAray[0].dataset.id);
   if (game.gameStart) {
     if (event.currentTarget === game.gameAray[0]) {
+      Statistic.addToStats(game.gameAray[0].dataset.id, 'correct');
       resultsBar.addAnswer(true);
       const oldCard = game.shiftGuessedCard();
       oldCard.removeEventListener('click', receiveAnswer);
@@ -47,12 +51,12 @@ function receiveAnswer(event) {
       game.playAnswerSound(true).play();
       setTimeout(() => game.playSound(), 1000);
     } else {
+      Statistic.addToStats(game.gameAray[0].dataset.id, 'wrong');
       resultsBar.addAnswer(false);
       game.playAnswerSound(false).play();
       game.wrongAnswer += 1;
     }
   }
-  // console.log(game.wrongAnswer, game.correctAnswer);
 }
 
 function createRepeatButton(gameObj) {
@@ -73,7 +77,7 @@ function startGame() {
 function gameOver() {
   game.gameStart = false;
   const cardsField = document.querySelector('.cards');
-  const gameOverField = makeGameOverField()
+  const gameOverField = makeGameOverField();
   cardsField.replaceWith(gameOverField);
   if (game.wrongAnswer) {
     gameOverField.querySelector('.audio-failure').play();
@@ -148,14 +152,12 @@ function makeGameField(categoryNumber) {
   field.append(audioAnswerCorrect);
   field.append(audioAnswerWrong);
 
-
   document.querySelector('.cards').replaceWith(field);
   game.gameStart = false;
 }
 
 function setCategory(event) {
   const categoryId = event.currentTarget.dataset.id;
-  // TODO: закрывание меню если оно открыто
   if (menu.state.open) {
     menu.toggleMenu();
   }
@@ -193,30 +195,32 @@ function makeCategoryField() {
   setGameColor();
 }
 
+function repeatDifficult() {
+  console.log('repeat difficult');
+}
+
 function showStatistic() {
+  resultsBar.hide();
   // TODO: сделать функцию отображающую страницу статистики
   console.log('showing stats');
+  const statisticField = statistic.init(repeatDifficult);
+  document.querySelector('.cards').replaceWith(statisticField);
 
-  /* Страница статистики:
- страница со статистикой содержит перечень всех категорий, всех слов в каждой категории,
- перевод каждого слова. Минимальная ширина, при которой страница статистики отображается
- корректно – 320 рх: (+10)
- возле каждого слова указывается статистика - сколько раз по карточки с данным словом
- кликали в режиме тренировки, сколько раз данное слово угадывали в режиме игры, сколько
- ошибок при этом допустили, процент ошибок по каждому слову. После перезагрузки приложения
- статистика сохраняется: (+10)
- есть возможность сортировки данных по алфавиту, для числовых значений - по их величине.
-  Сортировка может происходить в прямом и обратном порядке и должна охватывать весь диапазон
-  данных: (+10)
- на странице со статистикой размещены кнопки "Repeat difficult words" и "Reset". Кнопка "Reset"
- обнуляет статистику. При клике по кнопке "Repeat difficult words" открывается страница изучения
- слов с наибольшим процентом ошибок аналогичная странице категории. На странице "Repeat difficult
- words" может размещаться от нуля до восьми слов, в зависимости от того сколько слов угадывалось
- в режиме игры и при их угадывании были допущены ошибки. После нажатия на кнопку "Reset"
- количество слов на странице "Repeat difficult words" равно нулю: (+10)
- реализован дополнительный, не предусмотренный заданием функционал. Не оценивается, но, если
- можете сделать лучше, почему бы и нет.
- */
+  // TODO: страница со статистикой содержит перечень всех категорий, всех слов в каждой категории,
+  //  перевод каждого слова.
+  // TODO: возле каждого слова указывается статистика - сколько раз по карточке с данным словом
+  //  кликали в режиме тренировки, сколько раз данное слово угадывали в режиме игры, сколько
+  //  ошибок при этом допустили, процент ошибок по каждому слову. После перезагрузке приложения
+  //  статистика сохраняется
+  // TODO: размещены кнопки "Repeat difficult words" и "Reset". Кнопка "Reset" обнуляет статистику.
+  //  При клике по кнопке "Repeat difficult words" открывается страница изучения слов с наибольшим
+  //  процентом ошибок аналогичная странице категории. На странице "Repeat difficult words" может
+  //  размещаться от нуля до восьми слов, в зависимости от того сколько слов угадывалось в режиме
+  //  игры и при их угадывании были допущены ошибки.
+  // TODO: Нажатия на кнопку "Reset" количество слов на странице "Repeat difficult words" равно нулю
+  // TODO: cортировка данных по алфавиту, для числовых значений - по их величине.
+  // TODO: Сортировка может происходить в прямом и обратном порядке и должна охватывать весь
+  //  диапазон данных
 }
 
 const menuActions = {
@@ -252,7 +256,6 @@ function onClickMenuItem(event) {
 
 function onClickMenuBurgerButton() {
   menu.toggleMenu();
-  // TODO: заменять иконку бургера на иконку крестика
 }
 
 function changeGameMode(trainMode) {
@@ -280,4 +283,4 @@ document.addEventListener('DOMContentLoaded', () => {
   activateListeners();
 }, { once: true });
 
-export default makeCategoryField;
+export { makeCategoryField, showStatistic };
