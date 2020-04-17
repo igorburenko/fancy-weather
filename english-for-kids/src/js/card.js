@@ -97,9 +97,9 @@ class CategoryCard {
 
     const categoryColorHeader = document.createElement('div');
     categoryColorHeader.classList.add('card__color', 'global__color');
-
+    cardCategory.append(categoryColorHeader);
     cardCategory.prepend(categoryImage);
-    cardCategory.appendChild(categoryColorHeader);
+
     return cardCategory;
   }
 }

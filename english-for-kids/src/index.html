@@ -12,7 +12,6 @@
   <header class="header">
     <div class="header__burger">
       <i class="material-icons md-dark md-36">menu</i>
-      <i class="material-icons md-dark md-36 hide">close</i>
     </div>
 
     <!-- Switch -->
@@ -25,10 +24,11 @@
 
   </header>
   <nav class="menu global__color close">
+    <div class="close-icon"><i class="material-icons md-dark md-36">close</i></div>
     <ul class="menu__items">
       <li><span class="menu__item menu-item_active" id="main_page">Main Page</span></li>
-      <li><span class="menu__item" id="categories">Categories</span></li>
-      <li class="menu__category">
+      <li id="categories-li"><span class="menu__item" id="categories">Categories</span></li>
+      <li class="menu__category" id="categories-items-li">
         <ul class="menu__category-list hide close-zoom-up">
           <li class="category-item" data-id="0">Action (set A)</li>
           <li class="category-item" data-id="1">Action (set B)</li>
@@ -44,9 +44,10 @@
     </ul>
   </nav>
   <main class="main-wrapper">
-    <div class="results hide_opacity">
-      <span class="material-icons rose md-30">star</span>
-      <span class="material-icons gray md-30">star</span>
+    <div class="results hide">
+<!--      <span class="material-icons color-main-dark md-30">sentiment_satisfied_alt</span>-->
+<!--      <span class="material-icons rose md-30">sentiment_very_dissatisfied</span>-->
+<!--      <span class="material-icons gray md-30">star</span>-->
     </div>
     <div class="cards" id="cards-container"></div>
 <!--    <div class="cards">-->

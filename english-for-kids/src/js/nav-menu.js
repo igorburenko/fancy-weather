@@ -3,6 +3,7 @@ class NavMenu {
     this.state = {
       trainMode: true,
       categoryItem: undefined,
+      open: false,
     };
     this.elements = {
       menu: document.querySelector('.menu'),
@@ -11,12 +12,21 @@ class NavMenu {
       categoriesList: document.querySelector('.menu__category-list'),
       categoryItems: document.querySelectorAll('.category-item'),
       menuButton: document.querySelector('.header__burger'),
+      closeIcon: document.querySelector('.close-icon'),
     };
   }
+
   // TODO: генерировать список  меню категориес из массива карточек
+  // TODO: меню закрывается как кликом по крестику,
+  //  так и кликом на любом элементе приложения, и кликом по ссылке в самом меню
+  showCross() {
+    this.elements.closeIcon.classList.toggle('zoom');
+  }
 
   toggleMenu() {
+    this.state.open = !this.state.open;
     this.elements.menu.classList.toggle('close');
+    setTimeout(() => this.showCross(), 700);
   }
 
   activateMenuItem(itemId) {
