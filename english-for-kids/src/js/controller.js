@@ -21,21 +21,19 @@ const resultsBar = {
   },
 };
 
-function makeTrainField(categoryNumber) {
+function makeTrainField(cardsArray) {
   // TODO: Добавить названия категории в верх страницы категорий
   const field = document.createElement('div');
   field.classList.add('cards');
   field.id = 'cards-container';
-  cards[categoryNumber].forEach((card) => {
+  cardsArray.forEach((card) => {
     const element = new Card(card.word, card.translation, card.image, card.audioSrc);
     field.append(element.renderCard(Statistic.addToStats));
   });
   document.querySelector('.cards').replaceWith(field);
 }
 
-
 function receiveAnswer(event) {
-  // console.dir(game.gameAray[0].dataset.id);
   if (game.gameStart) {
     if (event.currentTarget === game.gameAray[0]) {
       Statistic.addToStats(game.gameAray[0].dataset.id, 'correct');
@@ -85,7 +83,7 @@ function gameOver() {
   } else {
     gameOverField.querySelector('.audio-success').play();
   }
-  setTimeout(makeCategoryField, 4000);
+  setTimeout(makeCategoryField, 2500);
 }
 
 function makeGameOverField() {
@@ -129,13 +127,13 @@ function createStartButton() {
   return btnWrapper;
 }
 
-
-function makeGameField(categoryNumber) {
+function makeGameField(cardsArray) {
   // TODO: Добавить названия категории в верх страницы категорий
   const field = document.createElement('div');
   field.classList.add('cards');
   field.id = 'cards-container';
-  cards[categoryNumber].forEach((card) => {
+  cardsArray.forEach((card) => {
+  // cards[categoryNumber].forEach((card) => {
     const element = new GameCard(card.word, card.translation, card.image, card.audioSrc);
     const cardRender = element.renderCard();
     cardRender.addEventListener('click', receiveAnswer);
@@ -162,7 +160,7 @@ function setCategory(event) {
   if (menu.state.open) {
     menu.toggleMenu();
   }
-  (menu.state.trainMode ? makeTrainField : makeGameField)(categoryId);
+  (menu.state.trainMode ? makeTrainField : makeGameField)(cards[categoryId]);
   menu.showCategoriesMenu();
   menu.activateMenuItem('categories');
   menu.activateCategoryItem(categoryId);
@@ -197,22 +195,17 @@ function makeCategoryField() {
 }
 
 function repeatDifficult() {
-  console.log('repeat difficult');
+  Statistic.calculatePercentForStorage();
+  const cardsStat = Statistic.sortArrayByKey(Statistic.getStatisticFromStorage(), 'percent');
+  const playedCards = cardsStat.filter(card => card.percent > 0).reverse().splice(0, 8);
+  (trainSwitch.checked ? makeTrainField : makeGameField)(playedCards);
 }
 
 function showStatistic() {
   resultsBar.hide();
-  // TODO: сделать функцию отображающую страницу статистики
+  Statistic.calculatePercentForStorage();
   const statisticField = statistic.createStatsField(repeatDifficult);
   document.querySelector('.cards').replaceWith(statisticField);
-  statistic.init();
-  // TODO: размещены кнопки "Repeat difficult words" и "Reset".
-  //  При клике по кнопке "Repeat difficult words" открывается страница изучения слов с наибольшим
-  //  процентом ошибок аналогичная странице категории. На странице "Repeat difficult words" может
-  //  размещаться от нуля до восьми слов, в зависимости от того сколько слов угадывалось в режиме
-  //  игры и при их угадывании были допущены ошибки.
-  // TODO: Нажатия на кнопку "Reset" количество слов на странице "Repeat difficult words" равно нулю
-  // TODO: cортировка данных по алфавиту, для числовых значений - по их величине.
   // TODO: Сортировка может происходить в прямом и обратном порядке и должна охватывать весь
   //  диапазон данных
 }
@@ -243,7 +236,7 @@ function onClickMenuItem(event) {
     menuActions[event.target.id]();
   } else if (event.target.classList.contains('category-item')) {
     menu.toggleMenu();
-    (trainSwitch.checked ? makeTrainField : makeGameField)(event.target.attributes['data-id'].value);
+    (trainSwitch.checked ? makeTrainField : makeGameField)(cards[event.target.attributes['data-id'].value]);
     menu.activateCategoryItem(event.target.attributes['data-id'].value);
   }
 }
@@ -257,7 +250,7 @@ function changeGameMode(trainMode) {
   resultsBar.hide();
   setGameColor(trainMode);
   if (menu.state.categoryItem) {
-    (trainMode ? makeTrainField : makeGameField)(menu.state.categoryItem);
+    (trainMode ? makeTrainField : makeGameField)(cards[menu.state.categoryItem]);
   }
   const switchTitle = document.querySelector('.lever');
   switchTitle.textContent = trainMode ? 'TRAIN' : 'GAME';

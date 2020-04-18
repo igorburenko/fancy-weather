@@ -1,23 +1,20 @@
 import { cards, category } from './cardsArray';
 
 class Statistic {
-  init() {
-    // this.sortDropDown = document.querySelector('.sort-button-dropdown__layout');
-  }
-
   createSortDropDown() {
     const layoutWrapper = document.createElement('div');
-    layoutWrapper.classList.add('dropdown__layout-wrapper');
+    layoutWrapper.classList.add('dropdown__layout-wrapper', 'hide');
 
     const layout = document.createElement('div');
     layout.classList.add('sort-button-dropdown__layout', 'close-zoom-up');
 
-    const byEnglishName = this.createButton('by word', 'sort-button-dropdown__item', Statistic.sort, 'word');
-    const byTranslation = this.createButton('by translation', 'sort-button-dropdown__item', Statistic.sort, 'translation');
-    const byCorrect = this.createButton('by correct answer', 'sort-button-dropdown__item', Statistic.sort, 'correct');
-    const byWrong = this.createButton('by wrong answer', 'sort-button-dropdown__item', Statistic.sort, 'wrong');
-    const byTrain = this.createButton('by train', 'sort-button-dropdown__item', Statistic.sort, 'trainCount');
-    const byPercent = this.createButton('by percent', 'sort-button-dropdown__item', Statistic.sort);
+    const byEnglishName = this.createButton('word', 'sort-button-dropdown__item', Statistic.sort, 'word');
+    const byTranslation = this.createButton('translation', 'sort-button-dropdown__item', Statistic.sort, 'translation');
+    const byCorrect = this.createButton('correct answer', 'sort-button-dropdown__item', Statistic.sort, 'correct');
+    const byWrong = this.createButton('wrong answer', 'sort-button-dropdown__item', Statistic.sort, 'wrong');
+    const byTrain = this.createButton('train', 'sort-button-dropdown__item', Statistic.sort, 'trainCount');
+    const byPercent = this.createButton('percent', 'sort-button-dropdown__item', Statistic.sort, 'percent');
+    const byCategory = this.createButton('category', 'sort-button-dropdown__item', Statistic.sort, 'category');
 
     layout.append(byEnglishName);
     layout.append(byTranslation);
@@ -25,6 +22,7 @@ class Statistic {
     layout.append(byWrong);
     layout.append(byTrain);
     layout.append(byPercent);
+    layout.append(byCategory);
     layoutWrapper.append(layout);
 
     return layoutWrapper;
@@ -34,14 +32,14 @@ class Statistic {
     const statsTable = document.createElement('table');
     statsTable.classList.add('stats__table');
 
-    cards.forEach((categoryArray, index) => {
-      if (!sortTable || index < 1) {
+    currentStatistic.forEach((card, index) => {
+      if ((!sortTable && !((index) % 8)) || index < 1) {
         const categoryRow = document.createElement('tr');
         categoryRow.classList.add('stats__category-row');
 
         const categoryCellName = document.createElement('td');
         categoryCellName.classList.add('stats__category-cell-name');
-        categoryCellName.textContent = category[index];
+        categoryCellName.textContent = category[Math.ceil(index / 8)];
         categoryCellName.setAttribute('colspan', '2');
 
         const nameEng = document.createElement('td');
@@ -81,44 +79,40 @@ class Statistic {
         statsTable.append(categoryRow);
       }
 
-      categoryArray.forEach((card) => {
-        const cardIndex = Statistic.arrayIndexSearch(currentStatistic, card.word, 'word');
-        const wordRow = document.createElement('tr');
-        wordRow.classList.add('stats__word-row');
-        const wordCellNameEng = document.createElement('td');
-        wordCellNameEng.classList.add('stats__category-word-name');
-        wordCellNameEng.textContent = card.word;
-        const wordCellNameRu = document.createElement('td');
-        wordCellNameRu.classList.add('stats__category-word-name');
-        wordCellNameRu.textContent = card.translation;
+      const cardIndex = Statistic.arrayIndexSearch(currentStatistic, card.word, 'word');
+      const wordRow = document.createElement('tr');
+      wordRow.classList.add('stats__word-row');
+      const wordCellNameEng = document.createElement('td');
+      wordCellNameEng.classList.add('stats__category-word-name');
+      wordCellNameEng.textContent = card.word;
+      const wordCellNameRu = document.createElement('td');
+      wordCellNameRu.classList.add('stats__category-word-name');
+      wordCellNameRu.textContent = card.translation;
 
-        const wordTrainCount = document.createElement('td');
-        wordTrainCount.classList.add('stats__word-train', 'stats__category-word-name');
-        // wordTrainCount.textContent = currentStatistic[card.word].trainCount;
-        wordTrainCount.textContent = currentStatistic[cardIndex].trainCount;
+      const wordTrainCount = document.createElement('td');
+      wordTrainCount.classList.add('stats__word-train', 'stats__category-word-name');
+      wordTrainCount.textContent = currentStatistic[cardIndex].trainCount;
 
-        const wordCorrectCount = document.createElement('td');
-        wordCorrectCount.classList.add('stats__word-train', 'stats__category-word-name');
-        wordCorrectCount.textContent = currentStatistic[cardIndex].correct;
+      const wordCorrectCount = document.createElement('td');
+      wordCorrectCount.classList.add('stats__word-train', 'stats__category-word-name');
+      wordCorrectCount.textContent = currentStatistic[cardIndex].correct;
 
-        const wordWrongCount = document.createElement('td');
-        wordWrongCount.classList.add('stats__word-train', 'stats__category-word-name');
-        wordWrongCount.textContent = currentStatistic[cardIndex].wrong;
+      const wordWrongCount = document.createElement('td');
+      wordWrongCount.classList.add('stats__word-train', 'stats__category-word-name');
+      wordWrongCount.textContent = currentStatistic[cardIndex].wrong;
 
-        const wordPercentCount = document.createElement('td');
-        const correctPercent = Statistic.calcStatisticPercent(currentStatistic[cardIndex].correct,
-          currentStatistic[cardIndex].wrong);
-        wordPercentCount.classList.add('stats__word-train', 'stats__category-word-name');
-        wordPercentCount.textContent = `${correctPercent}%`;
+      const wordPercentCount = document.createElement('td');
+      wordPercentCount.classList.add('stats__word-train', 'stats__category-word-name');
+      wordPercentCount.textContent = `${currentStatistic[cardIndex].percent}%`;
 
-        wordRow.append(wordCellNameEng);
-        wordRow.append(wordCellNameRu);
-        wordRow.append(wordCorrectCount);
-        wordRow.append(wordWrongCount);
-        wordRow.append(wordTrainCount);
-        wordRow.append(wordPercentCount);
-        statsTable.append(wordRow);
-      });
+      wordRow.append(wordCellNameEng);
+      wordRow.append(wordCellNameRu);
+      wordRow.append(wordCorrectCount);
+      wordRow.append(wordWrongCount);
+      wordRow.append(wordTrainCount);
+      wordRow.append(wordPercentCount);
+      statsTable.append(wordRow);
+
     });
     return statsTable;
   }
@@ -150,7 +144,19 @@ class Statistic {
   }
 
   showSortBtnDropDown() {
-    document.querySelector('.sort-button-dropdown__layout').classList.toggle('close-zoom-up');
+    const dropdown = document.querySelector('.sort-button-dropdown__layout');
+    const dropdownWrapper = document.querySelector('.dropdown__layout-wrapper');
+
+    if (dropdownWrapper.classList.contains('hide')) {
+      dropdownWrapper.classList.remove('hide');
+    } else {
+      dropdown.addEventListener('transitionend', () => {
+        dropdownWrapper.classList.add('hide');
+      }, { once: true });
+    }
+    setTimeout(() => {
+      dropdown.classList.toggle('close-zoom-up');
+    }, 0);
   }
 
   static calcStatisticPercent(correct, wrong) {
@@ -158,6 +164,15 @@ class Statistic {
       return 0;
     }
     return Math.floor(+correct / (+correct + +wrong) * 100);
+  }
+
+  static calculatePercentForStorage() {
+    const stats = Statistic.getStatisticFromStorage();
+    const newStats = stats.map((card) => {
+      card.percent = Statistic.calcStatisticPercent(card.correct, card.wrong);
+      return card;
+    });
+    Statistic.saveStatisticToStorage(newStats);
   }
 
   createButton(buttonName, buttonClass, buttonHandler, btnId = 'noid') {
@@ -176,9 +191,12 @@ class Statistic {
         stats.push({
           word: card.word,
           translation: card.translation,
+          image: card.image,
+          audioSrc: card.audioSrc,
           correct: 0,
           wrong: 0,
           trainCount: 0,
+          percent: 0,
         });
       });
     });
@@ -196,7 +214,10 @@ class Statistic {
   }
 
   static resetStatistic() {
-    Statistic.saveStatisticToStorage(Statistic.initStatisticStorage());
+    const initStats = Statistic.initStatisticStorage();
+    Statistic.saveStatisticToStorage(initStats);
+    const newTable = Statistic.createTable(initStats, false);
+    document.querySelector('.stats__table').replaceWith(newTable);
   }
 
   static addToStats(word, option) {
@@ -212,19 +233,20 @@ class Statistic {
 
   static sort(event) {
     const compareKey = event.currentTarget.dataset.id;
-    // TODO: при клике на кнопку сортировки запускаем функцию мейк сорт статистик,
-    //  она принимает опцию по которой сортироваться будет
-    // TODO: Отрисовывается сортировка без названий категорий.
-    // TODO: Верхняя колонка синяя, дальше все колонки желтые
-    const statisticList = Statistic.getStatisticFromStorage();
-    if (compareKey === 'word') {
-      statisticList.sort((a, b) => (a[compareKey] > b[compareKey] ? 1 : -1));
-    } else if (compareKey === 'trainCount') {
-      statisticList.sort((a, b) => (a[compareKey] > b[compareKey] ? -1 : 1));
-    }
-    const newTable = Statistic.createTable(statisticList, true);
-    // console.log(statisticList);
+    let statisticList = Statistic.getStatisticFromStorage();
+    statisticList = Statistic.sortArrayByKey(statisticList, compareKey);
+    const isCategory = compareKey !== 'category';
+    const newTable = Statistic.createTable(statisticList, isCategory);
     document.querySelector('.stats__table').replaceWith(newTable);
+  }
+
+  static sortArrayByKey(array, key) {
+    if (key === 'word' || key === 'translation') {
+      array.sort((a, b) => (a[key] > b[key] ? 1 : -1));
+    } else {
+      array.sort((a, b) => (a[key] > b[key] ? -1 : 1));
+    }
+    return array;
   }
 }
 
