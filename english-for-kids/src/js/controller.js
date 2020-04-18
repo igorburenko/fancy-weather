@@ -50,6 +50,7 @@ function receiveAnswer(event) {
       }
       game.playAnswerSound(true).play();
       setTimeout(() => game.playSound(), 1000);
+      // TODO: появляется ошибка проверить!!!
     } else {
       Statistic.addToStats(game.gameAray[0].dataset.id, 'wrong');
       resultsBar.addAnswer(false);
@@ -202,17 +203,10 @@ function repeatDifficult() {
 function showStatistic() {
   resultsBar.hide();
   // TODO: сделать функцию отображающую страницу статистики
-  console.log('showing stats');
-  const statisticField = statistic.init(repeatDifficult);
+  const statisticField = statistic.createStatsField(repeatDifficult);
   document.querySelector('.cards').replaceWith(statisticField);
-
-  // TODO: страница со статистикой содержит перечень всех категорий, всех слов в каждой категории,
-  //  перевод каждого слова.
-  // TODO: возле каждого слова указывается статистика - сколько раз по карточке с данным словом
-  //  кликали в режиме тренировки, сколько раз данное слово угадывали в режиме игры, сколько
-  //  ошибок при этом допустили, процент ошибок по каждому слову. После перезагрузке приложения
-  //  статистика сохраняется
-  // TODO: размещены кнопки "Repeat difficult words" и "Reset". Кнопка "Reset" обнуляет статистику.
+  statistic.init();
+  // TODO: размещены кнопки "Repeat difficult words" и "Reset".
   //  При клике по кнопке "Repeat difficult words" открывается страница изучения слов с наибольшим
   //  процентом ошибок аналогичная странице категории. На странице "Repeat difficult words" может
   //  размещаться от нуля до восьми слов, в зависимости от того сколько слов угадывалось в режиме

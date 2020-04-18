@@ -2,7 +2,6 @@
   display: flex;
   width: 100%;
   justify-content: center;
-
 }
 
 .stat__button {
@@ -12,6 +11,19 @@
   padding: 5px 10px;
   border-radius: 3px;
   background: #85d6de;
+  cursor: pointer;
+  transition: .3s ease;
+  height: 30px;
+  z-index: 5;
+
+  &:hover {
+    background: #8ddee6;
+  }
+
+  &:first-child {
+    position: relative;
+  }
+
 }
 
 .stats__table {
@@ -28,6 +40,12 @@
 .stats__category-cell-name {
   text-align: center;
   padding: 5px 0;
+  cursor: pointer;
+  transition: .3s ease;
+
+  &:hover {
+    color: #de9bc2;
+  }
 }
 
 .stats__category-word-name {
@@ -42,4 +60,41 @@
   vertical-align: bottom;
   text-align: center;
   padding: 0 4px;
+  cursor: pointer;
+  transition: .3s ease;
+
+  &:hover {
+    color: #de9bc2;
+  }
+}
+
+.dropdown__layout-wrapper {
+  overflow: hidden;
+  position: absolute;
+  top: 30px;
+  left: 10px;
+  border-radius: 3px;
+  width: max-content;
+}
+
+.sort-button-dropdown__layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: .3s ease;
+  //background-color: #3A7C82;
+}
+
+.sort-button-dropdown__item {
+  text-align: left;
+
+  cursor: pointer;
+  background-color: #3a7c82eb;
+  color: #ffffff;
+  padding: 3px 10px;
+
+  &:hover {
+    background: #de9bc2;;
+    color: #515151;
+  }
 }

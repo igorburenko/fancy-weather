@@ -48,7 +48,6 @@ class Card {
   }
 
   static onCardClick(event, addStatCounter) {
-    console.dir(event.currentTarget.dataset.id);
     addStatCounter(event.currentTarget.dataset.id, 'trainCount');
     if (event.target.tagName === 'I') {
       event.target.offsetParent.offsetParent.classList.add('rotate');
@@ -74,11 +73,6 @@ class GameCard extends Card {
     card.appendChild(cardAudio);
 
     return card;
-  }
-
-
-  static onCardClick(event) {
-    console.log('on card click');
   }
 }
 
