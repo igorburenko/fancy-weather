@@ -1,3 +1,3 @@
 ### English for kids
 ####Ihor Burenko
-#####Deploy: https://english4kidsburenkoihor.netlify.app/
+#####Deploy: https://igorburenko-english-for-kids.netlify.app/
