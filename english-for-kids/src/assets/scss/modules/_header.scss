@@ -17,6 +17,8 @@
 .header__burger {
   z-index: 500;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .header__switch {

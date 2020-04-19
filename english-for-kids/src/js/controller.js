@@ -2,12 +2,12 @@ import NavMenu from './nav-menu';
 import { cards, category } from './cardsArray';
 import { Card, GameCard, CategoryCard } from './card';
 import Game from './gameController';
-import Statistic from './statistic';
+import statistic from './statistic';
 
 const trainSwitch = document.querySelector('.train__switch');
+const appContainer = document.querySelector('.container');
 let menu;
 let game = { gameStart: false };
-const statistic = new Statistic();
 
 const resultsBar = {
   resBar: document.querySelector('.results'),
@@ -28,7 +28,7 @@ function makeTrainField(cardsArray) {
   field.id = 'cards-container';
   cardsArray.forEach((card) => {
     const element = new Card(card.word, card.translation, card.image, card.audioSrc);
-    field.append(element.renderCard(Statistic.addToStats));
+    field.append(element.renderCard(statistic.addToStats.bind(statistic)));
   });
   document.querySelector('.cards').replaceWith(field);
 }
@@ -36,7 +36,7 @@ function makeTrainField(cardsArray) {
 function receiveAnswer(event) {
   if (game.gameStart) {
     if (event.currentTarget === game.gameAray[0]) {
-      Statistic.addToStats(game.gameAray[0].dataset.id, 'correct');
+      statistic.addToStats(game.gameAray[0].dataset.id, 'correct');
       resultsBar.addAnswer(true);
       const oldCard = game.shiftGuessedCard();
       oldCard.removeEventListener('click', receiveAnswer);
@@ -48,9 +48,8 @@ function receiveAnswer(event) {
       }
       game.playAnswerSound(true).play();
       setTimeout(() => game.playSound(), 1000);
-      // TODO: появляется ошибка проверить!!!
     } else {
-      Statistic.addToStats(game.gameAray[0].dataset.id, 'wrong');
+      statistic.addToStats(game.gameAray[0].dataset.id, 'wrong');
       resultsBar.addAnswer(false);
       game.playAnswerSound(false).play();
       game.wrongAnswer += 1;
@@ -133,7 +132,6 @@ function makeGameField(cardsArray) {
   field.classList.add('cards');
   field.id = 'cards-container';
   cardsArray.forEach((card) => {
-  // cards[categoryNumber].forEach((card) => {
     const element = new GameCard(card.word, card.translation, card.image, card.audioSrc);
     const cardRender = element.renderCard();
     cardRender.addEventListener('click', receiveAnswer);
@@ -167,7 +165,6 @@ function setCategory(event) {
 }
 
 function setGameColor() {
-  // TODO: сделать установку цвета интерфейса в зависимости от режима игра/тренировка
   const primaryColoredElements = document.querySelectorAll('.global__color');
   const secondaryColoredElements = document.querySelectorAll('.global-second__color');
   primaryColoredElements.forEach((element) => {
@@ -176,6 +173,8 @@ function setGameColor() {
   secondaryColoredElements.forEach((element) => {
     element.style.background = menu.state.trainMode ? '#decf6e' : '#86d6de';
   });
+  const header = document.querySelector('.header');
+  header.style.background = menu.state.trainMode ? '#a4d1d64f' : '#decf6e4f';
 }
 
 function makeCategoryField() {
@@ -195,19 +194,17 @@ function makeCategoryField() {
 }
 
 function repeatDifficult() {
-  Statistic.calculatePercentForStorage();
-  const cardsStat = Statistic.sortArrayByKey(Statistic.getStatisticFromStorage(), 'percent');
+  statistic.calculatePercentForStorage();
+  const cardsStat = statistic.sortArrayByKey(statistic.getStatisticFromStorage(), 'percent');
   const playedCards = cardsStat.filter(card => card.percent > 0).reverse().splice(0, 8);
   (trainSwitch.checked ? makeTrainField : makeGameField)(playedCards);
 }
 
 function showStatistic() {
   resultsBar.hide();
-  Statistic.calculatePercentForStorage();
+  statistic.calculatePercentForStorage();
   const statisticField = statistic.createStatsField(repeatDifficult);
   document.querySelector('.cards').replaceWith(statisticField);
-  // TODO: Сортировка может происходить в прямом и обратном порядке и должна охватывать весь
-  //  диапазон данных
 }
 
 const menuActions = {
@@ -241,28 +238,39 @@ function onClickMenuItem(event) {
   }
 }
 
+function closeMenuOnClickToBody(event) {
+  const menuBlock = event.path.reverse()[5];
+  const isBurgerButton = event.target.classList.contains('burger');
+  if (menu.state.open && !isBurgerButton && (!menuBlock
+    || !menuBlock.classList.contains('menu'))) {
+    menu.toggleMenu();
+  }
+}
+
 function onClickMenuBurgerButton() {
   menu.toggleMenu();
 }
 
-function changeGameMode(trainMode) {
-  menu.state.trainMode = trainMode;
+function changeGameMode(isTrainMode) {
+  // TODO: сделать переключение игра/тренировка для repeat difficult режима
+  menu.state.trainMode = isTrainMode;
   resultsBar.hide();
-  setGameColor(trainMode);
+  setGameColor(isTrainMode);
   if (menu.state.categoryItem) {
-    (trainMode ? makeTrainField : makeGameField)(cards[menu.state.categoryItem]);
+    (isTrainMode ? makeTrainField : makeGameField)(cards[menu.state.categoryItem]);
   }
   const switchTitle = document.querySelector('.lever');
-  switchTitle.textContent = trainMode ? 'TRAIN' : 'GAME';
+  switchTitle.textContent = isTrainMode ? 'TRAIN' : 'GAME';
   menu.activateCategoryItem(menu.state.categoryItem);
 }
 
 function activateListeners() {
-  // TODO: перенести активацию всех листенеров сюда
+  // TODO: активация всех листенеров тут
   menu.elements.menuList.addEventListener('click', event => onClickMenuItem(event));
-  menu.elements.menuButton.addEventListener('click', () => onClickMenuBurgerButton());
+  menu.elements.menuButton.addEventListener('click', onClickMenuBurgerButton);
   menu.elements.closeIcon.addEventListener('click', onClickMenuBurgerButton);
   trainSwitch.addEventListener('change', event => changeGameMode(event.target.checked));
+  appContainer.addEventListener('click', closeMenuOnClickToBody);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

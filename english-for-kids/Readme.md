@@ -1,3 +1,3 @@
-english-for-kids 
-Burenko Ihor
-private repo
+### English for kids
+####Ihor Burenko
+#####Deploy: https://english4kidsburenkoihor.netlify.app/

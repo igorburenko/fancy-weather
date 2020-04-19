@@ -12,7 +12,9 @@ class Game {
   }
 
   playSound() {
-    this.gameAray[0].querySelector('audio').play();
+    if (this.gameAray[0]) {
+      this.gameAray[0].querySelector('audio').play();
+    }
   }
 
   shiftGuessedCard() {

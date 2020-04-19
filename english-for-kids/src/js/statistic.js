@@ -1,6 +1,24 @@
 import { cards, category } from './cardsArray';
 
-class Statistic {
+const statistic = {
+  sortAscending: {
+    word: true,
+    translation: true,
+    correct: true,
+    wrong: true,
+    trainCount: true,
+    percent: true,
+    category: true,
+  },
+
+  resetSortAscending(current) {
+    // eslint-disable-next-line guard-for-in,no-restricted-syntax
+    for (let val in statistic.sortAscending) {
+      if (val === current) continue;
+      statistic.sortAscending[val] = true;
+    }
+  },
+
   createSortDropDown() {
     const layoutWrapper = document.createElement('div');
     layoutWrapper.classList.add('dropdown__layout-wrapper', 'hide');
@@ -8,13 +26,13 @@ class Statistic {
     const layout = document.createElement('div');
     layout.classList.add('sort-button-dropdown__layout', 'close-zoom-up');
 
-    const byEnglishName = this.createButton('word', 'sort-button-dropdown__item', Statistic.sort, 'word');
-    const byTranslation = this.createButton('translation', 'sort-button-dropdown__item', Statistic.sort, 'translation');
-    const byCorrect = this.createButton('correct answer', 'sort-button-dropdown__item', Statistic.sort, 'correct');
-    const byWrong = this.createButton('wrong answer', 'sort-button-dropdown__item', Statistic.sort, 'wrong');
-    const byTrain = this.createButton('train', 'sort-button-dropdown__item', Statistic.sort, 'trainCount');
-    const byPercent = this.createButton('percent', 'sort-button-dropdown__item', Statistic.sort, 'percent');
-    const byCategory = this.createButton('category', 'sort-button-dropdown__item', Statistic.sort, 'category');
+    const byEnglishName = this.createButton('word', 'sort-button-dropdown__item', this.sort, 'word');
+    const byTranslation = this.createButton('translation', 'sort-button-dropdown__item', this.sort, 'translation');
+    const byCorrect = this.createButton('correct answer', 'sort-button-dropdown__item', this.sort, 'correct');
+    const byWrong = this.createButton('wrong answer', 'sort-button-dropdown__item', this.sort, 'wrong');
+    const byTrain = this.createButton('train', 'sort-button-dropdown__item', this.sort, 'trainCount');
+    const byPercent = this.createButton('percent', 'sort-button-dropdown__item', this.sort, 'percent');
+    const byCategory = this.createButton('category', 'sort-button-dropdown__item', this.sort, 'category');
 
     layout.append(byEnglishName);
     layout.append(byTranslation);
@@ -26,9 +44,9 @@ class Statistic {
     layoutWrapper.append(layout);
 
     return layoutWrapper;
-  }
+  },
 
-  static createTable(currentStatistic, sortTable = false) {
+  createTable(currentStatistic, sortTable = false) {
     const statsTable = document.createElement('table');
     statsTable.classList.add('stats__table');
 
@@ -41,30 +59,25 @@ class Statistic {
         categoryCellName.classList.add('stats__category-cell-name');
         categoryCellName.textContent = category[Math.ceil(index / 8)];
         categoryCellName.setAttribute('colspan', '2');
+        categoryCellName.dataset.id = 'word';
+        categoryCellName.addEventListener('click', this.sort.bind(this));
 
         const nameEng = document.createElement('td');
         nameEng.classList.add('stats__category-cell-name');
         nameEng.textContent = 'Word';
+        nameEng.dataset.id = 'word';
+        nameEng.addEventListener('click', this.sort.bind(this));
 
         const nameRus = document.createElement('td');
         nameRus.classList.add('stats__category-cell-name');
         nameRus.textContent = 'Translation';
+        nameRus.dataset.id = 'translation';
+        nameRus.addEventListener('click', this.sort.bind(this));
 
-        const categoryTrainIcon = document.createElement('td');
-        categoryTrainIcon.classList.add('stats__train-icon', 'statistic__icons');
-        categoryTrainIcon.innerHTML = '<span class="material-icons icons_blue">360</span>';
-
-        const categoryCorrectIcon = document.createElement('td');
-        categoryCorrectIcon.classList.add('stats__correct-icon', 'statistic__icons');
-        categoryCorrectIcon.innerHTML = '<span class="material-icons icons_blue">sentiment_satisfied_alt</span>';
-
-        const categoryWrongIcon = document.createElement('td');
-        categoryWrongIcon.classList.add('stats__wrong-icon', 'statistic__icons');
-        categoryWrongIcon.innerHTML = '<span class="material-icons icons_pink">sentiment_very_dissatisfied</span>';
-
-        const categoryPercentIcon = document.createElement('td');
-        categoryPercentIcon.classList.add('stats__percent-icon', 'statistic__icons');
-        categoryPercentIcon.innerHTML = '<span class="material-icons icons_blue">thumb_up</span>';
+        const categoryTrainIcon = this.createHeaderRowItems('360', 'trainCount');
+        const categoryCorrectIcon = this.createHeaderRowItems('sentiment_satisfied_alt', 'correct');
+        const categoryWrongIcon = this.createHeaderRowItems('sentiment_very_dissatisfied', 'wrong');
+        const categoryPercentIcon = this.createHeaderRowItems('thumb_up', 'percent');
 
         if (!sortTable) {
           categoryRow.append(categoryCellName);
@@ -79,7 +92,7 @@ class Statistic {
         statsTable.append(categoryRow);
       }
 
-      const cardIndex = Statistic.arrayIndexSearch(currentStatistic, card.word, 'word');
+      const cardIndex = this.arrayIndexSearch(currentStatistic, card.word, 'word');
       const wordRow = document.createElement('tr');
       wordRow.classList.add('stats__word-row');
       const wordCellNameEng = document.createElement('td');
@@ -112,13 +125,21 @@ class Statistic {
       wordRow.append(wordTrainCount);
       wordRow.append(wordPercentCount);
       statsTable.append(wordRow);
-
     });
     return statsTable;
-  }
+  },
+
+  createHeaderRowItems(iconText, id) {
+    const categoryIcon = document.createElement('td');
+    categoryIcon.classList.add('stats__train-icon', 'statistic__icons');
+    categoryIcon.innerHTML = `<span class="material-icons icons_blue">${iconText}</span>`;
+    categoryIcon.dataset.id = id;
+    categoryIcon.addEventListener('click', this.sort.bind(this));
+    return categoryIcon;
+  },
 
   createStatsField(repeatBtnHandler) {
-    const currentStatistic = Statistic.getStatisticFromStorage();
+    const currentStatistic = this.getStatisticFromStorage();
 
     const statsTableWrapper = document.createElement('div');
     statsTableWrapper.classList.add('stats__wrapper', 'cards');
@@ -128,7 +149,7 @@ class Statistic {
 
     const btnSort = this.createButton('Sort by...', 'stat__button', this.showSortBtnDropDown);
     const btnRepeatDifficult = this.createButton('Repeat Difficult', 'stat__button', repeatBtnHandler);
-    const btnResetStats = this.createButton('Reset', 'stat__button', Statistic.resetStatistic);
+    const btnResetStats = this.createButton('Reset', 'stat__button', this.resetStatistic);
 
     btnSort.append(this.createSortDropDown());
     buttonsWrapper.append(btnSort);
@@ -136,12 +157,12 @@ class Statistic {
     buttonsWrapper.append(btnResetStats);
     // buttonsWrapper.append(this.createSortDropDown());
 
-    const statsTable = Statistic.createTable(currentStatistic);
+    const statsTable = this.createTable(currentStatistic);
 
     statsTableWrapper.append(buttonsWrapper);
     statsTableWrapper.append(statsTable);
     return statsTableWrapper;
-  }
+  },
 
   showSortBtnDropDown() {
     const dropdown = document.querySelector('.sort-button-dropdown__layout');
@@ -157,34 +178,34 @@ class Statistic {
     setTimeout(() => {
       dropdown.classList.toggle('close-zoom-up');
     }, 0);
-  }
+  },
 
-  static calcStatisticPercent(correct, wrong) {
+  calcStatisticPercent(correct, wrong) {
     if (!correct && !wrong) {
       return 0;
     }
     return Math.floor(+correct / (+correct + +wrong) * 100);
-  }
+  },
 
-  static calculatePercentForStorage() {
-    const stats = Statistic.getStatisticFromStorage();
-    const newStats = stats.map((card) => {
-      card.percent = Statistic.calcStatisticPercent(card.correct, card.wrong);
-      return card;
+  calculatePercentForStorage() {
+    const stats = this.getStatisticFromStorage();
+    const newStats = stats.map((currentCard) => {
+      currentCard.percent = this.calcStatisticPercent(currentCard.correct, currentCard.wrong);
+      return currentCard;
     });
-    Statistic.saveStatisticToStorage(newStats);
-  }
+    this.saveStatisticToStorage(newStats);
+  },
 
   createButton(buttonName, buttonClass, buttonHandler, btnId = 'noid') {
     const btn = document.createElement('button');
     btn.classList.add(buttonClass);
     btn.textContent = buttonName;
     btn.dataset.id = btnId;
-    btn.addEventListener('click', buttonHandler);
+    btn.addEventListener('click', buttonHandler.bind(this));
     return btn;
-  }
+  },
 
-  static initStatisticStorage() {
+  initStatisticStorage() {
     const stats = [];
     cards.forEach((currentCategory) => {
       currentCategory.forEach((card) => {
@@ -200,54 +221,65 @@ class Statistic {
         });
       });
     });
-    Statistic.saveStatisticToStorage(stats);
+    this.saveStatisticToStorage(stats);
     return stats;
-  }
+  },
 
-  static saveStatisticToStorage(statObject) {
+  saveStatisticToStorage(statObject) {
     window.localStorage.statistic = JSON.stringify(statObject);
-  }
+  },
 
-  static getStatisticFromStorage() {
+  getStatisticFromStorage() {
     const stats = window.localStorage.statistic;
-    return stats ? JSON.parse(window.localStorage.statistic) : Statistic.initStatisticStorage();
-  }
+    return stats ? JSON.parse(window.localStorage.statistic) : this.initStatisticStorage();
+  },
 
-  static resetStatistic() {
-    const initStats = Statistic.initStatisticStorage();
-    Statistic.saveStatisticToStorage(initStats);
-    const newTable = Statistic.createTable(initStats, false);
+  resetStatistic() {
+    const initStats = this.initStatisticStorage();
+    this.saveStatisticToStorage(initStats);
+    const newTable = this.createTable(initStats, false);
     document.querySelector('.stats__table').replaceWith(newTable);
-  }
+  },
 
-  static addToStats(word, option) {
-    const statistic = Statistic.getStatisticFromStorage();
-    const index = Statistic.arrayIndexSearch(statistic, word);
-    statistic[index][option] += 1;
-    Statistic.saveStatisticToStorage(statistic);
-  }
+  addToStats(word, option) {
+    const stats = this.getStatisticFromStorage();
+    const index = this.arrayIndexSearch(stats, word);
+    stats[index][option] += 1;
+    this.saveStatisticToStorage(stats);
+  },
 
-  static arrayIndexSearch(arr, searchItem, keyName = 'word') {
+  arrayIndexSearch(arr, searchItem, keyName = 'word') {
     return arr.findIndex(item => item[keyName] === searchItem);
-  }
+  },
 
-  static sort(event) {
+  sort(event) {
     const compareKey = event.currentTarget.dataset.id;
-    let statisticList = Statistic.getStatisticFromStorage();
-    statisticList = Statistic.sortArrayByKey(statisticList, compareKey);
+    let statisticList = this.getStatisticFromStorage();
+    statisticList = this.sortArrayByKey(statisticList, compareKey);
     const isCategory = compareKey !== 'category';
-    const newTable = Statistic.createTable(statisticList, isCategory);
+    const newTable = this.createTable(statisticList, isCategory);
     document.querySelector('.stats__table').replaceWith(newTable);
-  }
+  },
 
-  static sortArrayByKey(array, key) {
-    if (key === 'word' || key === 'translation') {
-      array.sort((a, b) => (a[key] > b[key] ? 1 : -1));
-    } else {
-      array.sort((a, b) => (a[key] > b[key] ? -1 : 1));
+  sortArrayByKey(array, key) {
+    if (key === 'category') {
+      return array;
     }
+    statistic.resetSortAscending(key);
+    if (this.sortAscending[key]) {
+      if (key === 'word' || key === 'translation') {
+        array.sort((a, b) => (a[key] > b[key] ? 1 : -1));
+      } else {
+        array.sort((a, b) => (a[key] > b[key] ? -1 : 1));
+      }
+    } else if (key === 'word' || key === 'translation') {
+      array.sort((a, b) => (a[key] > b[key] ? -1 : 1));
+    } else {
+      array.sort((a, b) => (a[key] > b[key] ? 1 : -1));
+    }
+    this.sortAscending[key] = !this.sortAscending[key];
     return array;
-  }
-}
+  },
+};
 
-export default Statistic;
+export default statistic;
