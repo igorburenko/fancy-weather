@@ -5,9 +5,10 @@ import Game from './gameController';
 import statistic from './statistic';
 
 const trainSwitch = document.querySelector('.train__switch');
-const appContainer = document.querySelector('.container');
+const appContainer = document.querySelector('body');
 let menu;
 let game = { gameStart: false };
+let difficultCards = [];
 
 const resultsBar = {
   resBar: document.querySelector('.results'),
@@ -179,6 +180,8 @@ function setGameColor() {
 
 function makeCategoryField() {
   resultsBar.hide();
+  menu.activateMenuItem('main_page');
+  menu.deactivateCategoryItem();
   const field = document.createElement('div');
   field.classList.add('cards');
   field.id = 'cards-container';
@@ -189,15 +192,15 @@ function makeCategoryField() {
     field.append(cardRender);
   });
   document.querySelector('.cards').replaceWith(field);
-
   setGameColor();
 }
 
 function repeatDifficult() {
+  menu.state.categoryItem = 'difficult';
   statistic.calculatePercentForStorage();
   const cardsStat = statistic.sortArrayByKey(statistic.getStatisticFromStorage(), 'percent');
-  const playedCards = cardsStat.filter(card => card.percent > 0).reverse().splice(0, 8);
-  (trainSwitch.checked ? makeTrainField : makeGameField)(playedCards);
+  difficultCards = cardsStat.filter(card => card.percent > 0).reverse().splice(0, 8);
+  (trainSwitch.checked ? makeTrainField : makeGameField)(difficultCards);
 }
 
 function showStatistic() {
@@ -252,12 +255,12 @@ function onClickMenuBurgerButton() {
 }
 
 function changeGameMode(isTrainMode) {
-  // TODO: сделать переключение игра/тренировка для repeat difficult режима
   menu.state.trainMode = isTrainMode;
   resultsBar.hide();
   setGameColor(isTrainMode);
   if (menu.state.categoryItem) {
-    (isTrainMode ? makeTrainField : makeGameField)(cards[menu.state.categoryItem]);
+    const cardsToPlay = menu.state.categoryItem === 'difficult' ? difficultCards : cards[menu.state.categoryItem];
+    (isTrainMode ? makeTrainField : makeGameField)(cardsToPlay);
   }
   const switchTitle = document.querySelector('.lever');
   switchTitle.textContent = isTrainMode ? 'TRAIN' : 'GAME';

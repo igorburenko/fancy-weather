@@ -43,6 +43,7 @@ class NavMenu {
 
   activateCategoryItem(itemId) {
     if (itemId) {
+      if (itemId === 'difficult') return;
       this.deactivateCategoryItem();
       const color = this.state.trainMode ? 'category-item_active' : 'category-item_active_second_color';
       this.elements.categoryItems[itemId].classList.add(color);
