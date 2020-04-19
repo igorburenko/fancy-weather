@@ -5,7 +5,7 @@ import Game from './gameController';
 import statistic from './statistic';
 
 const trainSwitch = document.querySelector('.train__switch');
-const appContainer = document.querySelector('body');
+const appContainer = document.querySelector('.main-wrapper');
 let menu;
 let game = { gameStart: false };
 let difficultCards = [];
@@ -22,11 +22,19 @@ const resultsBar = {
   },
 };
 
-function makeTrainField(cardsArray) {
-  // TODO: Добавить названия категории в верх страницы категорий
-  const field = document.createElement('div');
-  field.classList.add('cards');
-  field.id = 'cards-container';
+function makeFieldTemplate(categoryId) {
+  const fieldTemplate = document.createElement('div');
+  fieldTemplate.classList.add('cards');
+  fieldTemplate.id = 'cards-container';
+  const currentCategory = document.createElement('div');
+  currentCategory.classList.add('current-category');
+  currentCategory.textContent = categoryId === 'difficult' ? 'Difficult Words' : category[categoryId];
+  fieldTemplate.append(currentCategory);
+  return fieldTemplate;
+}
+
+function makeTrainField(cardsArray, categoryId) {
+  const field = makeFieldTemplate(categoryId);
   cardsArray.forEach((card) => {
     const element = new Card(card.word, card.translation, card.image, card.audioSrc);
     field.append(element.renderCard(statistic.addToStats.bind(statistic)));
@@ -73,19 +81,6 @@ function startGame() {
   game.gameStart = true;
 }
 
-function gameOver() {
-  game.gameStart = false;
-  const cardsField = document.querySelector('.cards');
-  const gameOverField = makeGameOverField();
-  cardsField.replaceWith(gameOverField);
-  if (game.wrongAnswer) {
-    gameOverField.querySelector('.audio-failure').play();
-  } else {
-    gameOverField.querySelector('.audio-success').play();
-  }
-  setTimeout(makeCategoryField, 2500);
-}
-
 function makeGameOverField() {
   const imgSrc = `/assets/img/${game.wrongAnswer ? 'failure.png' : 'success.png'}`;
   const gameOverField = document.createElement('div');
@@ -116,6 +111,19 @@ function makeGameOverField() {
   return gameOverField;
 }
 
+function gameOver() {
+  game.gameStart = false;
+  const cardsField = document.querySelector('.cards');
+  const gameOverField = makeGameOverField();
+  cardsField.replaceWith(gameOverField);
+  if (game.wrongAnswer) {
+    gameOverField.querySelector('.audio-failure').play();
+  } else {
+    gameOverField.querySelector('.audio-success').play();
+  }
+  setTimeout(makeCategoryField, 2500);
+}
+
 function createStartButton() {
   const btnWrapper = document.createElement('div');
   btnWrapper.classList.add('button__wrapper');
@@ -127,11 +135,8 @@ function createStartButton() {
   return btnWrapper;
 }
 
-function makeGameField(cardsArray) {
-  // TODO: Добавить названия категории в верх страницы категорий
-  const field = document.createElement('div');
-  field.classList.add('cards');
-  field.id = 'cards-container';
+function makeGameField(cardsArray, categoryId) {
+  const field = makeFieldTemplate(categoryId);
   cardsArray.forEach((card) => {
     const element = new GameCard(card.word, card.translation, card.image, card.audioSrc);
     const cardRender = element.renderCard();
@@ -159,7 +164,7 @@ function setCategory(event) {
   if (menu.state.open) {
     menu.toggleMenu();
   }
-  (menu.state.trainMode ? makeTrainField : makeGameField)(cards[categoryId]);
+  (menu.state.trainMode ? makeTrainField : makeGameField)(cards[categoryId], categoryId);
   menu.showCategoriesMenu();
   menu.activateMenuItem('categories');
   menu.activateCategoryItem(categoryId);
@@ -182,6 +187,7 @@ function makeCategoryField() {
   resultsBar.hide();
   menu.activateMenuItem('main_page');
   menu.deactivateCategoryItem();
+  menu.hideCategoriesMenu();
   const field = document.createElement('div');
   field.classList.add('cards');
   field.id = 'cards-container';
@@ -200,7 +206,7 @@ function repeatDifficult() {
   statistic.calculatePercentForStorage();
   const cardsStat = statistic.sortArrayByKey(statistic.getStatisticFromStorage(), 'percent');
   difficultCards = cardsStat.filter(card => card.percent > 0).reverse().splice(0, 8);
-  (trainSwitch.checked ? makeTrainField : makeGameField)(difficultCards);
+  (trainSwitch.checked ? makeTrainField : makeGameField)(difficultCards, menu.state.categoryItem);
 }
 
 function showStatistic() {
@@ -236,16 +242,15 @@ function onClickMenuItem(event) {
     menuActions[event.target.id]();
   } else if (event.target.classList.contains('category-item')) {
     menu.toggleMenu();
-    (trainSwitch.checked ? makeTrainField : makeGameField)(cards[event.target.attributes['data-id'].value]);
+    const categoryId = event.target.attributes['data-id'].value;
+    (trainSwitch.checked ? makeTrainField : makeGameField)(cards[categoryId], categoryId);
     menu.activateCategoryItem(event.target.attributes['data-id'].value);
   }
 }
 
 function closeMenuOnClickToBody(event) {
-  const menuBlock = event.path.reverse()[5];
   const isBurgerButton = event.target.classList.contains('burger');
-  if (menu.state.open && !isBurgerButton && (!menuBlock
-    || !menuBlock.classList.contains('menu'))) {
+  if (menu.state.open && !isBurgerButton) {
     menu.toggleMenu();
   }
 }
@@ -260,7 +265,7 @@ function changeGameMode(isTrainMode) {
   setGameColor(isTrainMode);
   if (menu.state.categoryItem) {
     const cardsToPlay = menu.state.categoryItem === 'difficult' ? difficultCards : cards[menu.state.categoryItem];
-    (isTrainMode ? makeTrainField : makeGameField)(cardsToPlay);
+    (isTrainMode ? makeTrainField : makeGameField)(cardsToPlay, menu.state.categoryItem);
   }
   const switchTitle = document.querySelector('.lever');
   switchTitle.textContent = isTrainMode ? 'TRAIN' : 'GAME';

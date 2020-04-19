@@ -3,6 +3,13 @@
   max-width: 1440px;
 }
 
+.current-category {
+  text-align: center;
+  flex-basis: 100%;
+  font-size: 25px;
+  color: #515151;
+}
+
 .results {
   display: flex;
   flex-direction: row-reverse;

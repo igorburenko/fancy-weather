@@ -9,20 +9,29 @@
 </head>
 <body class="background_blue">
 <div class="container">
-  <header class="header">
-    <div class="header__burger burger">
-      <i class="material-icons md-dark md-36 burger">menu</i>
-    </div>
+  <div class="main-wrapper">
+    <header class="header">
+      <div class="header__burger burger">
+        <i class="material-icons md-dark md-36 burger">menu</i>
+      </div>
 
-    <!-- Switch -->
-    <div class="switch header__switch">
-      <label>
-        <input class="train__switch" type="checkbox" checked>
-        <span class="lever">TRAIN</span>
-      </label>
-    </div>
-
-  </header>
+      <!-- Switch -->
+      <div class="switch header__switch">
+        <label>
+          <input class="train__switch" type="checkbox" checked>
+          <span class="lever">TRAIN</span>
+        </label>
+      </div>
+    </header>
+    <main class="main-wrapper">
+      <div class="results hide">
+      </div>
+      <div class="cards" id="cards-container"></div>
+      <div class="stats__wrapper">
+        <table class="stats"></table>
+      </div>
+    </main>
+  </div>
   <nav class="menu global__color close">
     <div class="close-icon"><i class="material-icons md-dark md-36">close</i></div>
     <ul class="menu__items">
@@ -43,48 +52,6 @@
       <li><span class="menu__item" id="statistic">Statistic</span></li>
     </ul>
   </nav>
-  <main class="main-wrapper">
-    <div class="results hide">
-<!--      <span class="material-icons color-main-dark md-30">sentiment_satisfied_alt</span>-->
-<!--      <span class="material-icons rose md-30">sentiment_very_dissatisfied</span>-->
-<!--      <span class="material-icons gray md-30">star</span>-->
-    </div>
-    <div class="cards" id="cards-container"></div>
-<!--    <div class="cards">-->
-<!--      <div class="card card__category">-->
-<!--        <img src="./assets/img/dance.jpg" alt="Action (set A)">-->
-<!--        Action (set A)-->
-<!--      </div>-->
-<!--      <div class="card train-card" >-->
-<!--        <div class="train-card__front" style="background-image: url('/assets/img/cat.jpg');">-->
-<!--          <p>Cat</p>-->
-<!--          <i class="material-icons md-dark md-30">360</i>-->
-<!--        </div>-->
-<!--        <div class="train-card__back " style="background-image: url('/assets/img/cat.jpg');">-->
-<!--          <p>Кошка</p>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="card card__game" style="background-image: url('/assets/img/dog.jpg');">-->
-<!--        <div class="train-card__front" >-->
-<!--          <p class="hide">Cat</p>-->
-<!--          <i class="material-icons md-dark md-30 hide">360</i>-->
-<!--        </div>-->
-<!--        <div class="train-card__back hide">-->
-<!--          <img src="./assets/img/cat.jpg" alt="dance">-->
-<!--          <p>Кошка</p>-->
-<!--        </div>-->
-<!--      <div class="card card__category"></div>-->
-<!--      <div class="card card__train"></div>-->
-<!--      <div class="card card__game"></div>-->
-<!--      <div class="card card__category"></div>-->
-<!--      <div class="card card__train"></div>-->
-<!--      </div>-->
-    <div class="stats__wrapper">
-      <table class="stats"></table>
-    </div>
-
-<!--    </div>-->
-  </main>
 </div>
 </body>
 </html>

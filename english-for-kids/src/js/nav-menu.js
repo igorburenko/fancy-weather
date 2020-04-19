@@ -16,7 +16,6 @@ class NavMenu {
     };
   }
 
-  // TODO: генерировать список  меню категориес из массива карточек
   showCross() {
     this.elements.closeIcon.classList.toggle('zoom');
   }

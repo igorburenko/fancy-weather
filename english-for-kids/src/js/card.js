@@ -52,7 +52,7 @@ class Card {
     if (event.target.tagName === 'I') {
       event.target.offsetParent.offsetParent.classList.add('rotate');
     } else {
-      event.path[1].querySelector('audio').play();
+      event.currentTarget.children[2].play();
     }
   }
 

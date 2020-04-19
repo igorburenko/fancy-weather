@@ -12,7 +12,6 @@ const statistic = {
   },
 
   resetSortAscending(current) {
-    // eslint-disable-next-line guard-for-in,no-restricted-syntax
     for (let val in statistic.sortAscending) {
       if (val === current) continue;
       statistic.sortAscending[val] = true;
@@ -189,11 +188,10 @@ const statistic = {
 
   calculatePercentForStorage() {
     const stats = this.getStatisticFromStorage();
-    const newStats = stats.map((currentCard) => {
+    stats.forEach((currentCard) => {
       currentCard.percent = this.calcStatisticPercent(currentCard.correct, currentCard.wrong);
-      return currentCard;
     });
-    this.saveStatisticToStorage(newStats);
+    this.saveStatisticToStorage(stats);
   },
 
   createButton(buttonName, buttonClass, buttonHandler, btnId = 'noid') {
