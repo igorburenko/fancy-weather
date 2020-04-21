@@ -205,7 +205,7 @@ function repeatDifficult() {
   menu.state.categoryItem = 'difficult';
   statistic.calculatePercentForStorage();
   const cardsStat = statistic.sortArrayByKey(statistic.getStatisticFromStorage(), 'percent');
-  difficultCards = cardsStat.filter(card => card.percent > 0).reverse().splice(0, 8);
+  difficultCards = cardsStat.filter(card => (card.percent > 0 && card.percent < 100).reverse().splice(0, 8);
   (trainSwitch.checked ? makeTrainField : makeGameField)(difficultCards, menu.state.categoryItem);
 }
 
