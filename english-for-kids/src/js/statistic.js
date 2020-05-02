@@ -78,7 +78,7 @@ const statistic = {
         const categoryWrongIcon = this.createHeaderRowItems('sentiment_very_dissatisfied', 'wrong');
         const categoryPercentIcon = this.createHeaderRowItems('thumb_up', 'percent');
 
-        if (!sortTable) {
+        if (sortTable) {
           categoryRow.append(categoryCellName);
         } else {
           categoryRow.append(nameEng);
