@@ -43,7 +43,7 @@ function makeTrainField(cardsArray, categoryId) {
 }
 
 function receiveAnswer(event) {
-  if (game.gameStart) {
+  if (!game.gameStart)  return
     if (event.currentTarget === game.gameAray[0]) {
       statistic.addToStats(game.gameAray[0].dataset.id, 'correct');
       resultsBar.addAnswer(true);
