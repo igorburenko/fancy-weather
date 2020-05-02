@@ -266,7 +266,7 @@ const statistic = {
     statistic.resetSortAscending(key);
     if (this.sortAscending[key]) {
       if (key === 'word' || key === 'translation') {
-        array.sort((a, b) => (a[key] > b[key] ? 1 : -1));
+        array.sort((a, b) => a[key] - b[key]);
       } else {
         array.sort((a, b) => (a[key] > b[key] ? -1 : 1));
       }
