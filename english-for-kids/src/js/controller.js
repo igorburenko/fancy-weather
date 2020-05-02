@@ -7,7 +7,7 @@ import statistic from './statistic';
 const trainSwitch = document.querySelector('.train__switch');
 const appContainer = document.querySelector('.main-wrapper');
 let menu;
-let game = { gameStart: false };
+let game = { inProgress: false };
 let difficultCards = [];
 
 const resultsBar = {
