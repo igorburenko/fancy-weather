@@ -64,7 +64,7 @@ module.exports = {
       },
       {
         // images / icons
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif|svg)$/i,
         loader: "file-loader",
         include: path.join(__dirname, 'assets/img'),
         options: {
