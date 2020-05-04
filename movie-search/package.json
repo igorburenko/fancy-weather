@@ -28,7 +28,9 @@
     "scss"
   ],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "swiper": "^5.3.8"
+  },
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.7.7",

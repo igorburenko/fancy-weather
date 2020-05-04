@@ -1,9 +1,15 @@
+@import "utils/reset";
 @import "utils/libs";
 @import "utils/vars";
 @import "utils/mixins";
 @import "utils/fonts";
-@import "utils/reset";
 @import "utils/icons";
+
+@import "modules/swiper";
+@import "modules/header";
+@import "modules/main";
+@import "modules/footer";
+@import "modules/search-loader";
 
 
 html {
@@ -30,6 +36,8 @@ body {
   font-weight: $mainFontWeight;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #1D3557;
+  min-height: 100vh;
 }
 
 *,
@@ -84,18 +92,73 @@ section,
 .container {
   width: 100%;
   flex: 0 0 auto;
-  position: relative;
   margin: 0 auto;
   max-width: 1440px;
+  min-height: 100vh;
+  position: relative;
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1200px) {
+    .swiper-container {
+      width: 900px;
+    }
+
   }
+
+  @media screen and (max-width: 900px) {
+    .swiper-container {
+      width: 700px;
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+      display: none;
+    }
+  }
+
+
   @media screen and (max-width: 768px) {
+    .header__title {
+      font-size: 35px;
+    }
+  }
+  @media screen and (max-width: 700px) {
+    .swiper-container {
+      width: 390px;
+    }
+
+    .main__search {
+      width: 90%;
+    }
   }
   @media screen and (max-width: 500px) {
+    .header__title {
+      font-size: 30px;
+    }
+
+    .swiper-slide {
+      .inner {
+        margin: 0 5% 0;
+      }
+    }
   }
 
-  @media screen and (max-width: 374px) {
+  @media screen and (max-width: 390px) {
+    .header__title {
+      font-size: 27px;
+    }
+    .swiper-container {
+      width: 300px;
+    }
+    .search-icon__search {
+      display: none;
+    }
+
+    .search__input {
+      padding-left: 15px;
+    }
+
+    .search-icon__clear {
+      right: 38px;
+    }
   }
 }
 
@@ -107,7 +170,3 @@ section,
   opacity: 0;
 }
 
-.main-wrapper {
-  margin: 0;
-  max-width: 1440px;
-}

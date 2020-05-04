@@ -1,0 +1,120 @@
+.search-spinner {
+  position: absolute;
+  top: 3px;
+  right: 43px;
+}
+
+@keyframes ldio-e0y8niizubo {
+  0% { transform: rotate(0deg) }
+  50% { transform: rotate(180deg) }
+  100% { transform: rotate(360deg) }
+}
+.ldio-e0y8niizubo div {
+  position: absolute;
+  animation: ldio-e0y8niizubo 0.7300000000000001s linear infinite;
+  width: 80px;
+  height: 80px;
+  top: 10px;
+  left: 10px;
+  border-radius: 50%;
+  box-shadow: 0 4px 0 0 #457b9d;
+  transform-origin: 40px 41px;
+}
+.loadingio-spinner-eclipse-r9ujfwnlyy9 {
+  width: 35px;
+  height: 35px;
+  display: inline-block;
+  overflow: hidden;
+  background: none;
+}
+.ldio-e0y8niizubo {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(0.35);
+  backface-visibility: hidden;
+  transform-origin: 0 0;
+}
+.ldio-e0y8niizubo div { box-sizing: content-box; }
+
+//slider loader
+
+.swiper-loader__wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #1D3557;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  transition: .3s ease;
+  z-index: 30;
+}
+
+.swiper-loader__item {
+  //position: absolute;
+  //z-index: 30;
+  //top: 0;
+  //left: calc(50% - 102px);
+}
+
+.swiper-loader__text {
+
+}
+
+.swiper-loader__text {
+  color: #ffffffba;;
+}
+
+@keyframes ldio-bm1fkh464ap-o {
+  0%    { opacity: 1; transform: translate(0 0) }
+  49.99% { opacity: 1; transform: translate(89.76px,0) }
+  50%    { opacity: 0; transform: translate(89.76px,0) }
+  100%    { opacity: 0; transform: translate(0,0) }
+}
+@keyframes ldio-bm1fkh464ap {
+  0% { transform: translate(0,0) }
+  50% { transform: translate(89.76px,0) }
+  100% { transform: translate(0,0) }
+}
+.ldio-bm1fkh464ap div {
+  position: absolute;
+  width: 89.76px;
+  height: 89.76px;
+  border-radius: 50%;
+  top: 57.120000000000005px;
+  left: 12.24px;
+}
+.ldio-bm1fkh464ap div:nth-child(1) {
+  background: #e63946;
+  animation: ldio-bm1fkh464ap 1.9607843137254901s linear infinite;
+  animation-delay: -0.9803921568627451s;
+}
+.ldio-bm1fkh464ap div:nth-child(2) {
+  background: #a8dadc;
+  animation: ldio-bm1fkh464ap 1.9607843137254901s linear infinite;
+  animation-delay: 0s;
+}
+.ldio-bm1fkh464ap div:nth-child(3) {
+  background: #e63946;
+  animation: ldio-bm1fkh464ap-o 1.9607843137254901s linear infinite;
+  animation-delay: -0.9803921568627451s;
+}
+.loadingio-spinner-dual-ball-5xh9xxezrq {
+  width: 204px;
+  height: 204px;
+  display: inline-block;
+  overflow: hidden;
+  background: none;
+}
+.ldio-bm1fkh464ap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0; /* see note above */
+}
+.ldio-bm1fkh464ap div { box-sizing: content-box; }

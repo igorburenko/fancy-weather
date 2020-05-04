@@ -1,0 +1,124 @@
+body{
+  font-family: arial, sans-serif;
+}
+
+.wrapper {
+  max-width: 900px;
+  width: 90vw;
+  margin: 10px auto 0;
+}
+
+.input-window {
+  height: 250px;
+}
+
+textarea {
+  height: calc(100% - 12px);
+  width: calc(100% - 34px);
+  resize: none;
+  padding: 15px;
+  border: 2px solid cornflowerblue;
+  min-width: 734px;
+}
+
+.keyboard {
+  height: 300px;
+  width: 100%;
+  min-width: 768px;
+  background-color: cornflowerblue;
+}
+
+.keyboard__keys {
+  padding-top: 30px;
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.key {
+  height: 45px;
+  width: 5%;
+  /*max-width: 90px;*/
+  margin: 3px;
+  border-radius: 3px;
+  border: none;
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-size: 1rem;
+  outline: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: top;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  transition: all .2s;
+  /*box-shadow: 1px 2px 5px 0 black;*/
+}
+
+.key:active,
+.key_pressed {
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 5px;
+  box-shadow: inset 0 0 3px 0 black;
+  transition: all .2s;
+}
+
+.key_wide {
+  width: 10%;
+}
+
+.key_middle-wide {
+  width: 10%;
+}
+
+.caps {
+  width: 10.65%;
+}
+
+.key_shift-wide {
+  width: 15.6%;
+  transition: all .2s;
+}
+
+.key_ctrl {
+  width: 6%;
+}
+
+.key_space {
+  width: 40%;
+  max-width: 500px;
+  transition: all .2s;
+}
+
+.key_hold {
+  background: rgb(167, 210, 168);
+  box-shadow: inset 0 0 2px 0 black;
+}
+
+.help {
+  padding: 25px 10px;
+  min-width: 744px;
+  border: 2px solid cornflowerblue;
+  background: #6495ed80;
+  color: #375282;
+  text-align: justify;
+  line-height: 19px;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+.button-hide {
+  width: auto;
+  max-width: none;
+  color: #3b598e;
+  margin: 0 auto;
+
+}

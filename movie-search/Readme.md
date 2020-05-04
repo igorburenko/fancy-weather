@@ -1,3 +1,3 @@
 ### SpeakIt
 ####Ihor Burenko
-#####Deploy: https://igorburenko-speakit.netlify.app/
+#####Deploy: https://igorburenko-movie-search.netlify.app/

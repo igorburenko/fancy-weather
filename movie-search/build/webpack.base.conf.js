@@ -40,7 +40,7 @@ module.exports = {
       cacheGroups: {
         vendor: {
           name: "vendors",
-          test: /node_modules/,
+          test: /[\\/]node_modules[\\/]/,
           chunks: "all",
           enforce: true
         }
@@ -65,7 +65,7 @@ module.exports = {
       },
       {
         // images / icons
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif|svg)$/i,
         loader: "file-loader",
         include: path.join(__dirname, 'assets/img'),
         options: {
