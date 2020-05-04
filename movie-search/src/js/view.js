@@ -23,7 +23,9 @@ async function addNewSliderItems(data) {
             <div class="inner">
               <a href="https://www.imdb.com/title/${film.imdbID}/" target="_blank"><p class="slider__title">${film.Title}</p></a>
               <div class="slider__poster-wrapper">
-                  <img src="${poster}" alt="poster" class="slider__poster">
+                <div class="slider__front">
+                    <img src="${poster}" alt="poster" class="slider__poster">
+                </div>
               </div>
               <div class="slider__year">${year}</div>
               <div class="slider__rating"><span class="material-icons">star</span>${rate}</div>
@@ -45,16 +47,36 @@ function showError(error) {
 function showSearchSpinner() {
   clearBtn.classList.add('hide');
   searchSpinner.classList.remove('hide');
+  // showSwiperLoader();
 }
 
-function showSwiperLoader() {
-  swiperLoader.classList.remove('hide_opacity');
+const transitionToPromise = (el, property, value) =>
+  new Promise(resolve => {
+    el.style[property] = value;
+    const transitionEnded = e => {
+      if (e.propertyName !== property) return;
+      el.removeEventListener('transitionend', transitionEnded);
+      resolve();
+    };
+    el.addEventListener('transitionend', transitionEnded);
+  });
+
+async function showSwiperLoader() {
+  swiperLoader.classList.remove('hide');
+  await transitionToPromise(swiperLoader, 'opacity', '1');
+  // setTimeout(() => swiperLoader.classList.remove('hide_opacity'), 0);
 }
+
+async function hideSwiperLoader() {
+  // swiperLoader.classList.add('hide_opacity');
+  await transitionToPromise(swiperLoader, 'opacity', '0');
+  swiperLoader.classList.add('hide');
+}
+
 
 function hideSearchSpinner() {
   clearBtn.classList.remove('hide');
   searchSpinner.classList.add('hide');
-  swiperLoader.classList.add('hide_opacity');
 }
 
 function resetSearchForm() {
@@ -62,4 +84,4 @@ function resetSearchForm() {
   inputSearch.focus();
 }
 
-export {addNewSliderItems, showError, showSearchSpinner, hideSearchSpinner, showSwiperLoader, searchSpinner, inputSearch, searchForm};
+export {addNewSliderItems, showError, showSearchSpinner, hideSearchSpinner, showSwiperLoader, hideSwiperLoader, searchSpinner, inputSearch, searchForm};

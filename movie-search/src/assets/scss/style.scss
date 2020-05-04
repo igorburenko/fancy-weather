@@ -4,7 +4,6 @@
 @import "utils/mixins";
 @import "utils/fonts";
 @import "utils/icons";
-
 @import "modules/swiper";
 @import "modules/header";
 @import "modules/main";
@@ -81,18 +80,12 @@ section,
   }
 }
 
-.wrapper {
+.container {
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  min-height: 100vh;
-  min-width: 100vh;
-}
-
-.container {
   width: 100%;
-  flex: 0 0 auto;
-  margin: 0 auto;
+  //flex: 0 0 auto;
+  //margin: 0 auto;
   max-width: 1440px;
   min-height: 100vh;
   position: relative;
@@ -101,7 +94,6 @@ section,
     .swiper-container {
       width: 900px;
     }
-
   }
 
   @media screen and (max-width: 900px) {
@@ -142,6 +134,18 @@ section,
   }
 
   @media screen and (max-width: 390px) {
+    .main__search{
+      flex-wrap: wrap;
+    }
+    .input-wrapper {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
+    .search__button {
+      margin: 5px 0 0;
+      flex-basis: 100%;
+      max-width: 100%;
+    }
     .header__title {
       font-size: 27px;
     }

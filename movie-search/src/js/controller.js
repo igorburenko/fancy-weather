@@ -1,7 +1,7 @@
 import {
   addNewSliderItems, hideSearchSpinner,
   inputSearch, searchForm, searchSpinner,
-  showError, showSearchSpinner, showSwiperLoader} from './view';
+  showError, showSearchSpinner, showSwiperLoader, hideSwiperLoader} from './view';
 import Swiper from 'swiper';
 
 let curPage = 1;
@@ -24,17 +24,18 @@ function searchMovie(url = searchUrl, page = curPage) {
   //TODO: возникающие ошибки в работе с API (прерывание соединения в ходе запроса,
   // возвращаемые ошибки от API типа 4xx, 5xx) также обрабатываются клиентом и
   // выводятся в область уведомления об ошибке
+  // TODO: остановка лоадеров при ошибке
     .then((body) => {
       console.log(body);
       if (body.Response === 'True') {
 
         if (curPage === 1) {
+          showSwiperLoader();
           mySwiper.removeAllSlides();
           // mySwiper.slideTo(0, 1, false);
           mySwiper.destroy(false, false);
           mySwiper = createSwiperInstance();
         }
-
         pageResults = Math.ceil(body.totalResults / 10);
         addNewSliderItems(body.Search);
       } else {
@@ -55,7 +56,7 @@ function getRateById(id) {
 
 async function startSearch(event) {
   event.preventDefault();
-  showSwiperLoader();
+
   let searchQuery = inputSearch.value;
   if (isCyrillic(searchQuery)) {
     searchQuery = await translateRussian(searchQuery).then(translation => translation[0]);
@@ -128,10 +129,10 @@ function createSwiperInstance() {
 }
 
 function pictureOnLoad() {
-  console.log('loaded pict');
   hideSearchSpinner();
+  hideSwiperLoader();
 }
 
-mySwiper.on('init', function() { console.log('INITIALISE') });
+// mySwiper.on('init', function() { console.log('INITIALISE') });
 
 export {getRateById, searchMovie, startSearch, mySwiper};
