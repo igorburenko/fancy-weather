@@ -46,7 +46,7 @@ function searchMovie(url = searchUrl, page = curPage) {
 
 
 function getRateById(id) {
-  const idGetUrl = `http://www.omdbapi.com/?i=${id}&plot=full&apikey=4af4c20c`;
+  const idGetUrl = `https://www.omdbapi.com/?i=${id}&plot=full&apikey=4af4c20c`;
   return getData(idGetUrl)
     .then((data) => {
       // console.log(data);
