@@ -8,7 +8,7 @@ let curPage = 1;
 let pageResults = 0;
 let searchUrl = 'https://www.omdbapi.com/?apikey=4af4c20c&s=terminator&page=';
 let mySwiper = createSwiperInstance();
-
+let lastSearchQuery = 'terminator';
 
 async function getData(url) {
   const res = await fetch(url);
@@ -28,11 +28,9 @@ function searchMovie(url = searchUrl, page = curPage) {
     .then((body) => {
       console.log(body);
       if (body.Response === 'True') {
-
         if (curPage === 1) {
           showSwiperLoader();
           mySwiper.removeAllSlides();
-          // mySwiper.slideTo(0, 1, false);
           mySwiper.destroy(false, false);
           mySwiper = createSwiperInstance();
         }
@@ -62,6 +60,8 @@ async function startSearch(event) {
     searchQuery = await translateRussian(searchQuery).then(translation => translation[0]);
   }
   console.log(searchQuery);
+  if (searchQuery === lastSearchQuery) return;
+  lastSearchQuery = searchQuery;
   const url = `https://www.omdbapi.com/?apikey=4af4c20c&s=${searchQuery}&page=`;
   searchMovie(url, 1);
   showError(`Showing results for ${searchQuery}`);

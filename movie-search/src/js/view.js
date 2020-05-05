@@ -37,6 +37,7 @@ async function addNewSliderItems(data) {
 }
 
 function showError(error) {
+  hideSearchSpinner();
   if (error === 'Movie not found!') {
     errorField.textContent = `No results for ${inputSearch.value}`;
     return
@@ -47,7 +48,11 @@ function showError(error) {
 function showSearchSpinner() {
   clearBtn.classList.add('hide');
   searchSpinner.classList.remove('hide');
-  // showSwiperLoader();
+}
+
+function hideSearchSpinner() {
+  clearBtn.classList.remove('hide');
+  searchSpinner.classList.add('hide');
 }
 
 const transitionToPromise = (el, property, value) =>
@@ -64,19 +69,12 @@ const transitionToPromise = (el, property, value) =>
 async function showSwiperLoader() {
   swiperLoader.classList.remove('hide');
   await transitionToPromise(swiperLoader, 'opacity', '1');
-  // setTimeout(() => swiperLoader.classList.remove('hide_opacity'), 0);
 }
 
 async function hideSwiperLoader() {
   // swiperLoader.classList.add('hide_opacity');
   await transitionToPromise(swiperLoader, 'opacity', '0');
   swiperLoader.classList.add('hide');
-}
-
-
-function hideSearchSpinner() {
-  clearBtn.classList.remove('hide');
-  searchSpinner.classList.add('hide');
 }
 
 function resetSearchForm() {
