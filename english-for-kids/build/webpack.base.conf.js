@@ -52,11 +52,11 @@ module.exports = {
         // JavaScript
         test: /\.js$/,
         loader: "babel-loader",
-        exclude: "/node_modules/"
+        exclude: "/[\\/]node_modules[\\/]/"
       },
       {
         // Fonts
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(woff(2)?|ttf|eot)?$/,
         loader: "file-loader",
         options: {
           name: "[name].[ext]"

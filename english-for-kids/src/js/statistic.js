@@ -1,5 +1,7 @@
 import { cards, category } from './cardsArray';
 
+const CATEGORIES_AMOUNT = 8;
+
 const statistic = {
   sortAscending: {
     word: true,
@@ -45,12 +47,12 @@ const statistic = {
     return layoutWrapper;
   },
 
-  createTable(currentStatistic, sortTable = false) {
+  createTable(currentStatistic, isTableSorted = false) {
     const statsTable = document.createElement('table');
     statsTable.classList.add('stats__table');
 
     currentStatistic.forEach((card, index) => {
-      if ((!sortTable && !((index) % 8)) || index < 1) {
+      if ((!isTableSorted && !((index) % CATEGORIES_AMOUNT)) || index < 1) {
         const categoryRow = document.createElement('tr');
         categoryRow.classList.add('stats__category-row');
 
@@ -78,7 +80,7 @@ const statistic = {
         const categoryWrongIcon = this.createHeaderRowItems('sentiment_very_dissatisfied', 'wrong');
         const categoryPercentIcon = this.createHeaderRowItems('thumb_up', 'percent');
 
-        if (sortTable) {
+        if (isTableSorted) {
           categoryRow.append(categoryCellName);
         } else {
           categoryRow.append(nameEng);

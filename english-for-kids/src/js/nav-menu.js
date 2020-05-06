@@ -2,7 +2,7 @@ class NavMenu {
   constructor() {
     this.state = {
       trainMode: true,
-      categoryItem: undefined,
+      categoryItem: null,
       open: false,
     };
     this.elements = {
