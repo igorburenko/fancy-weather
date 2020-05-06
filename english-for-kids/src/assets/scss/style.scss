@@ -3,8 +3,6 @@
 @import "utils/mixins";
 @import "utils/fonts";
 
-//@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-
 //Modules:
 @import "modules/card";
 @import "modules/nav-menu";
@@ -13,8 +11,6 @@
 @import "modules/header";
 @import "modules/main-window";
 @import "modules/statistic";
-
-
 
 html {
   line-height: $mainLineHeight;
@@ -40,12 +36,6 @@ body {
   font-weight: $mainFontWeight;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
 }
 
 section,
@@ -93,13 +83,11 @@ section,
   max-width: 1440px;
   @media screen and (max-width: 1024px) {
     max-width: calc(100vw - 40px);
-    //max-width: $tableWidth;
     .card {
       margin: 15px 10px;
     }
   }
   @media screen and (max-width: 768px) {
-    //max-width: $phoneWidth;
     max-width: calc(100vw - 20px);
 
     .card {
@@ -160,11 +148,7 @@ section,
   max-width: 1440px;
 }
 
-
-//Colors:
-.color-main { color: #85d6de; }
+////Colors:
 .color-pink { color: #de9bc2; }
-.color-yellow { color: #decf6e; }
 .color-main-dark { color: #498b91; }
-.color-yellow-dark { color: #918850; }
 

@@ -53,7 +53,7 @@
 }
 
 #categories-li {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 #categories-items-li {
@@ -62,8 +62,7 @@
 
 .menu__category-list {
   padding-top: 10px;
-  //margin: 5px 0 0;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   transition: .4s cubic-bezier(.55,.04,.51,.95);
 }
 
