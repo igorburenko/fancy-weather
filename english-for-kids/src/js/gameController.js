@@ -31,9 +31,7 @@ class Game {
     const array = [...arr];
     for (let i = array.length - 1; i > 0; i -= 1) {
       j = Math.floor(Math.random() * (i + 1));
-      tmp = array[j];
-      array[j] = array[i];
-      array[i] = tmp;
+    [array[i], array[j]] = [array[j], array[i]]
     }
     return array;
   }
