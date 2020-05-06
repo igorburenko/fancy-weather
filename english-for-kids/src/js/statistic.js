@@ -1,5 +1,7 @@
 import { cards, category } from './cardsArray';
 
+const CATEGORIES_AMOUNT = 8;
+
 const statistic = {
   sortAscending: {
     word: true,
@@ -50,7 +52,7 @@ const statistic = {
     statsTable.classList.add('stats__table');
 
     currentStatistic.forEach((card, index) => {
-      if ((!sortTable && !((index) % 8)) || index < 1) {
+      if ((!sortTable && !((index) % CATEGORIES_AMOUNT)) || index < 1) {
         const categoryRow = document.createElement('tr');
         categoryRow.classList.add('stats__category-row');
 
