@@ -78,7 +78,7 @@ const statistic = {
         const categoryWrongIcon = this.createHeaderRowItems('sentiment_very_dissatisfied', 'wrong');
         const categoryPercentIcon = this.createHeaderRowItems('thumb_up', 'percent');
 
-        if (!sortTable) {
+        if (sortTable) {
           categoryRow.append(categoryCellName);
         } else {
           categoryRow.append(nameEng);
@@ -266,7 +266,7 @@ const statistic = {
     statistic.resetSortAscending(key);
     if (this.sortAscending[key]) {
       if (key === 'word' || key === 'translation') {
-        array.sort((a, b) => (a[key] > b[key] ? 1 : -1));
+        array.sort((a, b) => a[key] - b[key]);
       } else {
         array.sort((a, b) => (a[key] > b[key] ? -1 : 1));
       }

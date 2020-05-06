@@ -21,7 +21,7 @@ class Game {
     return this.gameAray.shift();
   }
 
-  playAnswerSound(correct = true) {
+  getAnswerSound(correct = true) {
     return correct ? this.audioCorrect : this.audioWrong;
   }
 

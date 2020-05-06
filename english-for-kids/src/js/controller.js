@@ -7,7 +7,7 @@ import statistic from './statistic';
 const trainSwitch = document.querySelector('.train__switch');
 const appContainer = document.querySelector('.main-wrapper');
 let menu;
-let game = { gameStart: false };
+let game = { inProgress: false };
 let difficultCards = [];
 
 const resultsBar = {
@@ -43,7 +43,7 @@ function makeTrainField(cardsArray, categoryId) {
 }
 
 function receiveAnswer(event) {
-  if (game.gameStart) {
+  if (!game.gameStart)  return
     if (event.currentTarget === game.gameAray[0]) {
       statistic.addToStats(game.gameAray[0].dataset.id, 'correct');
       resultsBar.addAnswer(true);
