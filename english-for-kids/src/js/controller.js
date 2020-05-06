@@ -43,7 +43,7 @@ function makeTrainField(cardsArray, categoryId) {
 }
 
 function receiveAnswer(event) {
-  if (!game.gameStart)  return
+  if (!game.inProgress) return;
     if (event.currentTarget === game.gameAray[0]) {
       statistic.addToStats(game.gameAray[0].dataset.id, 'correct');
       resultsBar.addAnswer(true);
@@ -55,15 +55,14 @@ function receiveAnswer(event) {
         // eslint-disable-next-line no-use-before-define
         return gameOver();
       }
-      game.playAnswerSound(true).play();
+      game.getAnswerSound(true).play();
       setTimeout(() => game.playSound(), 1000);
     } else {
       statistic.addToStats(game.gameAray[0].dataset.id, 'wrong');
       resultsBar.addAnswer(false);
-      game.playAnswerSound(false).play();
+      game.getAnswerSound(false).play();
       game.wrongAnswer += 1;
     }
-  }
 }
 
 function createRepeatButton(gameObj) {
@@ -78,7 +77,7 @@ function startGame() {
   resultsBar.show();
   game = new Game(document.querySelectorAll('.card__game'));
   createRepeatButton(game);
-  game.gameStart = true;
+  game.inProgress = true;
 }
 
 function makeGameOverField() {
@@ -112,7 +111,7 @@ function makeGameOverField() {
 }
 
 function gameOver() {
-  game.gameStart = false;
+  game.inProgress = false;
   const cardsField = document.querySelector('.cards');
   const gameOverField = makeGameOverField();
   cardsField.replaceWith(gameOverField);
@@ -156,7 +155,7 @@ function makeGameField(cardsArray, categoryId) {
   field.append(audioAnswerWrong);
 
   document.querySelector('.cards').replaceWith(field);
-  game.gameStart = false;
+  game.inProgress = false;
 }
 
 function setCategory(event) {

@@ -62,7 +62,7 @@
 }
 
 .train-card {
-  @extend .card__game
+  @extend .card__game;
   transition: transform .6s ease;
   transform-style: preserve-3d;
 }

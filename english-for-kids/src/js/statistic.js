@@ -81,10 +81,10 @@ const statistic = {
         const categoryPercentIcon = this.createHeaderRowItems('thumb_up', 'percent');
 
         if (isTableSorted) {
-          categoryRow.append(categoryCellName);
-        } else {
           categoryRow.append(nameEng);
           categoryRow.append(nameRus);
+        } else {
+          categoryRow.append(categoryCellName);
         }
         categoryRow.append(categoryCorrectIcon);
         categoryRow.append(categoryWrongIcon);
