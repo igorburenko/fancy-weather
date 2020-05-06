@@ -89,6 +89,12 @@ section,
   min-height: 100vh;
   position: relative;
 
+  @media screen and (max-width: 1438px) {
+    .swiper-container {
+      width: 1200px;
+    }
+  }
+
   @media screen and (max-width: 1200px) {
     .swiper-container {
       width: 900px;

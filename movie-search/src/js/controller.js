@@ -84,7 +84,7 @@ function createSwiperInstance() {
   return new Swiper('.swiper-container', {
     init: false,
     slidesPerView: 1,
-    spaceBetween: 10,
+    spaceBetween: 0,
     preloadImages: true,
     updateOnImagesReady: true,
 
@@ -96,6 +96,9 @@ function createSwiperInstance() {
     },
 
     breakpoints: {
+      1439: {
+        slidesPerView: 4,
+      },
       1201: {
         slidesPerView: 3,
       },
