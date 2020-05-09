@@ -137,7 +137,7 @@ Example:
 ```
 
 ## Create Another HTML Files:
-#### Default: 
+#### Default:
 Automatic creation any html pages:
 1. Create another html file in `./src` (main folder)
 2. Open new page `http://localhost:8081/about.html` (Don't forget to RERUN dev server)
@@ -275,7 +275,5 @@ $mySecontFont : 'Helvetica-Base', Arial, sans-serif;
 ```
 
 
-## License
-[MIT](./LICENSE)
 
 Copyright (c) 2018-present, [Evgenii Vedegis](https://github.com/vedees)

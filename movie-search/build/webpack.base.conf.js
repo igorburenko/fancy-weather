@@ -27,8 +27,6 @@ module.exports = {
   },
   entry: {
     app: PATHS.src
-    // app: ['babel-polyfill', PATHS.src]
-    // module: `${PATHS.src}/your-module.js`,
   },
   output: {
     filename: `${PATHS.assets}js/[name].[contenthash].js`,
@@ -57,7 +55,7 @@ module.exports = {
       },
       {
         // Fonts
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
         loader: "file-loader",
         options: {
           name: "[name].[ext]"

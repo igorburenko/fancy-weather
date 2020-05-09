@@ -1,6 +1,4 @@
-import {searchMovie} from './controller';
-
-
+import { searchMovie } from './controller';
 
 window.onload = function () {
   searchMovie();

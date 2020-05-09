@@ -1,5 +1,4 @@
 @import "utils/reset";
-@import "utils/libs";
 @import "utils/vars";
 @import "utils/mixins";
 @import "utils/fonts";
@@ -9,6 +8,8 @@
 @import "modules/main";
 @import "modules/footer";
 @import "modules/search-loader";
+@import "modules/keyboard";
+
 
 
 html {
@@ -39,32 +40,6 @@ body {
   min-height: 100vh;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-}
-
-a {
-  text-decoration: none;
-}
-
-ul,
-li {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
 section,
 .section {
   position: relative;
@@ -88,6 +63,7 @@ section,
   max-width: 1440px;
   min-height: 100vh;
   position: relative;
+  overflow: hidden;
 
   @media screen and (max-width: 1438px) {
     .swiper-container {

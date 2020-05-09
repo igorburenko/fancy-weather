@@ -1,8 +1,16 @@
-import {
-  addNewSliderItems, hideSearchSpinner,
-  inputSearch, searchForm, searchSpinner,
-  showError, showSearchSpinner, showSwiperLoader, hideSwiperLoader} from './view';
 import Swiper from 'swiper';
+import {
+  addNewSliderItems,
+  hideSearchSpinner,
+  inputSearch,
+  searchForm,
+  searchSpinner,
+  showError,
+  showSearchSpinner,
+  showSwiperLoader,
+  hideSwiperLoader,
+} from './view';
+import VirtualKeyboard from './keyboard';
 
 let curPage = 1;
 let pageResults = 0;
@@ -10,9 +18,14 @@ let searchUrl = 'https://www.omdbapi.com/?apikey=4af4c20c&s=terminator&page=';
 let mySwiper = createSwiperInstance();
 let lastSearchQuery = 'terminator';
 
+const keyboard = new VirtualKeyboard();
+keyboard.init();
+keyboard.toggleVirtualKeys();
+
 async function getData(url) {
   const res = await fetch(url);
-  return await res.json();
+  const data = await res.json();
+  return data;
 }
 
 function searchMovie(url = searchUrl, page = curPage) {
@@ -21,9 +34,9 @@ function searchMovie(url = searchUrl, page = curPage) {
     curPage = 1;
   }
   getData(url + page)
-  //TODO: возникающие ошибки в работе с API (прерывание соединения в ходе запроса,
-  // возвращаемые ошибки от API типа 4xx, 5xx) также обрабатываются клиентом и
-  // выводятся в область уведомления об ошибке
+  // TODO: возникающие ошибки в работе с API (прерывание соединения в ходе запроса,
+  //  возвращаемые ошибки от API типа 4xx, 5xx) также обрабатываются клиентом и
+  //  выводятся в область уведомления об ошибке
   // TODO: остановка лоадеров при ошибке
     .then((body) => {
       console.log(body);
@@ -42,22 +55,18 @@ function searchMovie(url = searchUrl, page = curPage) {
     });
 }
 
-
 function getRateById(id) {
   const idGetUrl = `https://www.omdbapi.com/?i=${id}&plot=full&apikey=4af4c20c`;
-  return getData(idGetUrl)
-    .then((data) => {
-      // console.log(data);
-      return data.imdbRating;
-    });
+  return getData(idGetUrl).then(data => data.imdbRating);
 }
 
 async function startSearch(event) {
-  event.preventDefault();
+  event && event.preventDefault();
 
   let searchQuery = inputSearch.value;
   if (isCyrillic(searchQuery)) {
-    searchQuery = await translateRussian(searchQuery).then(translation => translation[0]);
+    searchQuery = await translateRussian(searchQuery)
+      .then(translation => translation[0]);
   }
   console.log(searchQuery);
   if (searchQuery === lastSearchQuery) return;
@@ -73,10 +82,10 @@ function isCyrillic(text) {
 }
 
 function translateRussian(text) {
-  let url = 'https://translate.yandex.net/api/v1.5/tr.json/translate' +
-    '?key=trnsl.1.1.20200425T120214Z.7df2562a38fe836d.f604c2224ea5a5b2ea79f898a389af7e75097a12' +
-    `&text=${text}` +
-    '&lang=ru-en';
+  const url = 'https://translate.yandex.net/api/v1.5/tr.json/translate'
+    + '?key=trnsl.1.1.20200425T120214Z.7df2562a38fe836d.f604c2224ea5a5b2ea79f898a389af7e75097a12'
+    + `&text=${text}`
+    + '&lang=ru-en';
   return getData(url).then(data => data.text);
 }
 
@@ -121,14 +130,14 @@ function createSwiperInstance() {
     },
     on: {
       imagesReady: () => pictureOnLoad(),
-      progress: function(data) {
+      progress(data) {
         if (data === 1 && curPage < pageResults) {
           curPage += 1;
           searchMovie();
         }
       },
     },
-  })
+  });
 }
 
 function pictureOnLoad() {
@@ -136,6 +145,6 @@ function pictureOnLoad() {
   hideSwiperLoader();
 }
 
-// mySwiper.on('init', function() { console.log('INITIALISE') });
-
-export {getRateById, searchMovie, startSearch, mySwiper};
+export {
+  getRateById, searchMovie, startSearch, mySwiper,
+};

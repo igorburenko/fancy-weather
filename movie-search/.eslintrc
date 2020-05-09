@@ -1,7 +1,13 @@
 {
-  "extends": "airbnb",
+  "extends": "airbnb-base",
   "rules": {
     "func-names": ["error", "never"],
-    "skipBlankLines": true
+    "skipBlankLines": true,
+    "no-use-before-define": ["error", { "functions": false, "classes": true }]
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "jasmine": true
   }
 }

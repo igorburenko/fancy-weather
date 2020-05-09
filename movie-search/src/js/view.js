@@ -1,4 +1,4 @@
-import { getRateById, startSearch, mySwiper } from './controller'
+import { getRateById, startSearch, mySwiper } from './controller';
 
 const searchBtn = document.querySelector('.search__button');
 const clearBtn = document.querySelector('.search-icon__clear');
@@ -8,12 +8,19 @@ const searchForm = document.querySelector('.main__search');
 const searchSpinner = document.querySelector('.search-spinner');
 const errorField = document.querySelector('.server-answer__error');
 const swiperLoader = document.querySelector('.swiper-loader__wrapper');
+const virtualKeyboard = document.querySelector('.keyboard__wrapper');
 
 searchBtn.addEventListener('click', startSearch);
 clearBtn.addEventListener('click', resetSearchForm);
+keyboardBtn.addEventListener('click', toggleKeyboard);
+
+function toggleKeyboard() {
+  virtualKeyboard.classList.toggle('keyboard__wrapper_active');
+  inputSearch.focus();
+}
 
 async function addNewSliderItems(data) {
-  const swiperItems = await data.map(async film => {
+  const swiperItems = await data.map(async (film) => {
     const rate = await getRateById(film.imdbID);
     const poster = film.Poster !== 'N/A' ? film.Poster : './assets/img/poster-not-avalible.jpg';
     const year = film.Year.length === 5 ? film.Year.substr(0, 4) : film.Year;
@@ -40,7 +47,7 @@ function showError(error) {
   hideSearchSpinner();
   if (error === 'Movie not found!') {
     errorField.textContent = `No results for ${inputSearch.value}`;
-    return
+    return;
   }
   errorField.textContent = error;
 }
@@ -55,16 +62,15 @@ function hideSearchSpinner() {
   searchSpinner.classList.add('hide');
 }
 
-const transitionToPromise = (el, property, value) =>
-  new Promise(resolve => {
-    el.style[property] = value;
-    const transitionEnded = e => {
-      if (e.propertyName !== property) return;
-      el.removeEventListener('transitionend', transitionEnded);
-      resolve();
-    };
-    el.addEventListener('transitionend', transitionEnded);
-  });
+const transitionToPromise = (el, property, value) => new Promise((resolve) => {
+  el.style[property] = value;
+  const transitionEnded = (e) => {
+    if (e.propertyName !== property) return;
+    el.removeEventListener('transitionend', transitionEnded);
+    resolve();
+  };
+  el.addEventListener('transitionend', transitionEnded);
+});
 
 async function showSwiperLoader() {
   swiperLoader.classList.remove('hide');
@@ -82,4 +88,7 @@ function resetSearchForm() {
   inputSearch.focus();
 }
 
-export {addNewSliderItems, showError, showSearchSpinner, hideSearchSpinner, showSwiperLoader, hideSwiperLoader, searchSpinner, inputSearch, searchForm};
+export {
+  addNewSliderItems, showError, showSearchSpinner, hideSearchSpinner,
+  showSwiperLoader, hideSwiperLoader, searchSpinner, inputSearch, searchForm,
+};
