@@ -1,7 +1,6 @@
 
 import { startSearch } from './controller';
 
-
 class VirtualKeyboard {
   constructor() {
     this.elements = {};
@@ -247,7 +246,6 @@ class VirtualKeyboard {
     }
   }
 
-
   keyboardKeyUp(event) {
     switch (event.code) {
       case 'keyLang':
@@ -335,6 +333,6 @@ class VirtualKeyboard {
     }
     ctrl.focus();
   }
-
 }
+
 export default VirtualKeyboard;

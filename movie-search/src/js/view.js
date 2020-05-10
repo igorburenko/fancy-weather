@@ -1,6 +1,6 @@
-import {getRateById, startSearch, mySwiper} from './controller';
+import { getRateById, mySwiper } from './controller';
 
-const searchBtn = document.querySelector('.search__button');
+
 const clearBtn = document.querySelector('.search-icon__clear');
 const keyboardBtn = document.querySelector('.search-icon__keyboard');
 const inputSearch = document.querySelector('.search__input');
@@ -10,7 +10,7 @@ const errorField = document.querySelector('.server-answer__error');
 const swiperLoader = document.querySelector('.swiper-loader__wrapper');
 const virtualKeyboard = document.querySelector('.keyboard__wrapper');
 
-searchBtn.addEventListener('click', startSearch);
+
 clearBtn.addEventListener('click', resetSearchForm);
 keyboardBtn.addEventListener('click', toggleKeyboard);
 
@@ -41,7 +41,6 @@ async function addNewSliderItems(data) {
               </div>
               <div class="slider__year">${year}</div>
               <div class="slider__rating"><span class="material-icons">star</span>${rate}</div>
-              
             </div>`;
     return filmCard;
   });
@@ -73,7 +72,7 @@ function generateDescriptionRowFromTemplate(title, data) {
   return wrapper;
 }
 
-function showError(error) {
+function showWarning(error) {
   hideSearchSpinner();
   if (error === 'Movie not found!') {
     errorField.textContent = `No results for ${inputSearch.value}`;
@@ -108,7 +107,6 @@ async function showSwiperLoader() {
 }
 
 async function hideSwiperLoader() {
-  // swiperLoader.classList.add('hide_opacity');
   await transitionToPromise(swiperLoader, 'opacity', '0');
   swiperLoader.classList.add('hide');
 }
@@ -123,7 +121,7 @@ function rotatePoster(id) {
 }
 
 export {
-  addNewSliderItems, showError, showSearchSpinner, hideSearchSpinner,
+  addNewSliderItems, showWarning, showSearchSpinner, hideSearchSpinner,
   showSwiperLoader, hideSwiperLoader, searchSpinner, inputSearch, searchForm, rotatePoster,
   createPosterBackField,
 };

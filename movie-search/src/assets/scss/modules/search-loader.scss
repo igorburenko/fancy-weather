@@ -37,8 +37,6 @@
 }
 .ldio-e0y8niizubo div { box-sizing: content-box; }
 
-//slider loader
-
 .swiper-loader__wrapper {
   position: absolute;
   top: 0;
@@ -51,17 +49,6 @@
   flex-direction: column;
   transition: .2s ease;
   z-index: 30;
-}
-
-.swiper-loader__item {
-  //position: absolute;
-  //z-index: 30;
-  //top: 0;
-  //left: calc(50% - 102px);
-}
-
-.swiper-loader__text {
-
 }
 
 .swiper-loader__text {
