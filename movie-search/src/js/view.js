@@ -1,4 +1,4 @@
-import { getRateById, startSearch, mySwiper } from './controller';
+import {getRateById, startSearch, mySwiper} from './controller';
 
 const searchBtn = document.querySelector('.search__button');
 const clearBtn = document.querySelector('.search-icon__clear');
@@ -30,17 +30,47 @@ async function addNewSliderItems(data) {
             <div class="inner">
               <a href="https://www.imdb.com/title/${film.imdbID}/" target="_blank"><p class="slider__title">${film.Title}</p></a>
               <div class="slider__poster-wrapper">
-                <div class="slider__front">
-                    <img src="${poster}" alt="poster" class="slider__poster">
+                <div class="slider__poster" data-name="poster" id="${film.imdbID}">
+                  <div class="slider__front">
+                      <img src="${poster}" alt="poster" data-id="${film.imdbID}" class="slider__poster-img">
+                  </div>
+                  <div class="back__wrapper">
+                      <div class="slider-back__background" style="background-image: url(${poster});"></div>
+                  </div>
                 </div>
               </div>
               <div class="slider__year">${year}</div>
               <div class="slider__rating"><span class="material-icons">star</span>${rate}</div>
+              
             </div>`;
     return filmCard;
   });
   await Promise.all(swiperItems).then(val => mySwiper.appendSlide(val));
   mySwiper.init();
+}
+
+function createPosterBackField(cardData) {
+  const posterField = document.querySelector(`#${cardData.imdbID} .back__wrapper`);
+  const descriptionFragment = document.createElement('div');
+  descriptionFragment.classList.add('description');
+  descriptionFragment.appendChild(generateDescriptionRowFromTemplate('Genre', cardData.Genre) || '');
+  descriptionFragment.appendChild(generateDescriptionRowFromTemplate('Director', cardData.Director));
+  descriptionFragment.appendChild(generateDescriptionRowFromTemplate('Actors', cardData.Actors));
+  descriptionFragment.appendChild(generateDescriptionRowFromTemplate('Time', cardData.Runtime));
+  descriptionFragment.appendChild(generateDescriptionRowFromTemplate('Awards', cardData.Awards));
+  descriptionFragment.appendChild(generateDescriptionRowFromTemplate('Boxoffice', cardData.BoxOffice));
+  descriptionFragment.appendChild(generateDescriptionRowFromTemplate('Plot', cardData.Plot));
+
+  posterField.appendChild(descriptionFragment);
+}
+
+function generateDescriptionRowFromTemplate(title, data) {
+  if (!data || data === 'N/A') return document.createElement('div');
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('description__wrapper');
+  wrapper.innerHTML = `<p class="description__title">${title}</p>
+      <p class="description__text">${data}</p>`;
+  return wrapper;
 }
 
 function showError(error) {
@@ -88,7 +118,12 @@ function resetSearchForm() {
   inputSearch.focus();
 }
 
+function rotatePoster(id) {
+  document.querySelector(`#${id}`).classList.toggle('rotate');
+}
+
 export {
   addNewSliderItems, showError, showSearchSpinner, hideSearchSpinner,
-  showSwiperLoader, hideSwiperLoader, searchSpinner, inputSearch, searchForm,
+  showSwiperLoader, hideSwiperLoader, searchSpinner, inputSearch, searchForm, rotatePoster,
+  createPosterBackField,
 };

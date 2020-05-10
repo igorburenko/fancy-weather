@@ -11,7 +11,6 @@
   justify-content: center;
   color: #ffffffba;
   .inner {
-    //background-color: #A8DADC;
     height: 90%;
     margin: 0 50px;
 
@@ -53,22 +52,82 @@
 }
 
 .slider__poster-wrapper {
-  width: 250px;
-  height: 370px;
-  //border-radius: 5px;
-}
-
-.slider__front {
-  width: 100%;
-  height: 100%;
+  perspective: 1000px;
 }
 
 .slider__poster {
-  width: 100%;
-  height: 100%;
-  //height: 444px;
+  width: 250px;
+  height: 370px;
+  position: relative;
   box-shadow: 0 4px 8px 1px rgba(241, 250, 238, 0.4);
   border-radius: 5px;
+  transform-style: preserve-3d;
+  transition: .3s ease;
+}
+
+.slider__poster-img {
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+}
+
+.rotate {
+  transform: rotateY(180deg);
+}
+
+.slider__front {
+  height: 100%;
+  width: 100%;
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.back__wrapper {
+  transform: rotateY(180deg);
+  display: flex;
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 370px;
+  padding-bottom: 10px;
+}
+
+.slider-back__background {
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  opacity: .1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.description {
+  overflow: hidden;
+}
+
+.description__wrapper {
+  display: flex;
+  font-size: 12px;
+  color: white;
+  margin: 5px 8px 5px;
+  flex-wrap: wrap;
+}
+
+.description__title {
+  margin-right: 4px;
+}
+
+.description__text {
+  font-weight: 400;
 }
 
 .slider__year {

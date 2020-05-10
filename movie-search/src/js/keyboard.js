@@ -20,29 +20,29 @@ class VirtualKeyboard {
       eng: [['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'Backspace'],
         ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '\\'],
         ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Enter'],
-        ['Lang', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/'],
-        ['Space'],
+        ['Lang', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', 'Up', '.'],
+        ['/', 'Space', 'Left', 'Down', 'Right'],
       ],
 
       engShift: [['!', '@', '#', '$', '%', '&', '*', '(', ')', '_', 'Backspace'],
         ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '"'],
         ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Enter'],
-        ['Lang', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<', '>', '?'],
-        ['+', '-', 'Space', '*', '='],
+        ['Lang', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '+', 'Up', '-'],
+        ['<', '>', '*', '=', '?', 'Space', 'Left', 'Down', 'Right'],
       ],
 
       ru: [['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'Backspace'],
         ['й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х'],
         ['ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'Enter'],
-        ['Lang', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', 'э'],
-        ['CapsLock', '/', 'Space', 'ё', 'ъ'],
+        ['Lang', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'Up', 'ю'],
+        ['CapsLock', '/', 'э', 'Space', 'ё', 'ъ', 'Left', 'Down', 'Right'],
       ],
 
       ruShift: [['!', '"', '%', ':', ',', '.', '*', '(', ')', '_', 'Backspace'],
         ['й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х'],
         ['ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'Enter'],
-        ['Lang', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', 'э'],
-        ['CapsLock', '/', 'Space', 'ё', 'ъ'],
+        ['Lang', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'Up', 'ю'],
+        ['CapsLock', '/', 'Space', 'э', 'ё', 'ъ', 'Left', 'Down', 'Right'],
       ],
     };
   }
@@ -118,6 +118,26 @@ class VirtualKeyboard {
             keyElement.classList.add('key_lang');
             break;
 
+          case 'Up':
+            keyElement.innerHTML = '<span class="material-icons md-18">keyboard_arrow_up</span>';
+            keyElement.classList.add('arrow');
+            break;
+
+          case 'Down':
+            keyElement.innerHTML = '<span class="material-icons md-18">keyboard_arrow_down</span>';
+            keyElement.classList.add('arrow');
+            break;
+
+          case 'Left':
+            keyElement.innerHTML = '<span class="material-icons md-18">keyboard_arrow_left</span>';
+            keyElement.classList.add('arrow');
+            break;
+
+          case 'Right':
+            keyElement.innerHTML = '<span class="material-icons md-18">keyboard_arrow_right</span>';
+            keyElement.classList.add('arrow');
+            break;
+
           default:
             keyElement.classList.add('caps-key');
             keyElement.textContent = this.props.shift ? value.toUpperCase() : value;
@@ -144,16 +164,16 @@ class VirtualKeyboard {
     this.virtualKeyboardLayout = document.querySelector('.keyboard__keys');
     this.virtualKeyboardLayout.addEventListener('mousedown', (event) => {
       if (event.target.tagName === 'BUTTON') {
-        this.keyboardKeyDown({ code: event.target.id, key: event.target.innerText });
+        this.keyboardKeyDown({code: event.target.id, key: event.target.innerText});
       } else if (event.target.tagName === 'SPAN') {
-        this.keyboardKeyDown({ code: event.target.parentNode.id });
+        this.keyboardKeyDown({code: event.target.parentNode.id});
       }
     });
     this.virtualKeyboardLayout.addEventListener('mouseup', (event) => {
       if (event.target.tagName === 'BUTTON') {
-        this.keyboardKeyUp({ code: event.target.id, key: event.target.innerText });
+        this.keyboardKeyUp({code: event.target.id, key: event.target.innerText});
       } else if (event.target.tagName === 'SPAN') {
-        this.keyboardKeyUp({ code: event.target.parentNode.id });
+        this.keyboardKeyUp({code: event.target.parentNode.id});
       }
     });
     this.virtualKeyboardLayout.addEventListener('mouseout', (event) => {
@@ -167,16 +187,37 @@ class VirtualKeyboard {
   }
 
   printToInput(key) {
-    this.elements.input.value = this.elements.input.value + key;
+    const currentCursorPosition = this.getCaretPosition();
+    const currentKey = key || '';
+    this.elements.input.value = `${this.elements.input.value.slice(0, currentCursorPosition.start)}${currentKey}${this.elements.input.value.slice(currentCursorPosition.end)}`;
+    currentCursorPosition.start += 1;
+    currentCursorPosition.end = currentCursorPosition.start;
+    this.setCaretPosition(currentCursorPosition);
     setTimeout(() => this.elements.input.focus(), 0);
+  }
+
+  onBackspaceToggle() {
+    const currentCursorPosition = this.getCaretPosition();
+    setTimeout(() => this.elements.input.focus(), 0);
+    if (currentCursorPosition.end === 0) return;
+    if (currentCursorPosition.start === currentCursorPosition.end) {
+      this.elements.input.value = `${this.elements.input.value.slice(0, currentCursorPosition.start - 1)}${this.elements.input.value.slice(currentCursorPosition.end)}`;
+      currentCursorPosition.start -= 1;
+    } else {
+      this.elements.input.value = `${this.elements.input.value.slice(0, currentCursorPosition.start)}${this.elements.input.value.slice(currentCursorPosition.end)}`;
+    }
+    currentCursorPosition.end = currentCursorPosition.start;
+    this.setCaretPosition(currentCursorPosition);
   }
 
   keyboardKeyDown(event) {
     switch (event.code) {
+      case 'keyCapsLock':
+      case 'keyLang':
+        break;
+
       case 'keyBackspace':
-        this.elements.input.value = this.elements.input.value
-          .substring(0, this.elements.input.value.length - 1);
-        setTimeout(() => this.elements.input.focus(), 0);
+        this.onBackspaceToggle();
         break;
 
       case 'keyEnter':
@@ -188,7 +229,12 @@ class VirtualKeyboard {
         this.printToInput(' ');
         break;
 
-      case 'keyLang':
+      case 'keyRight':
+        this.moveCursorRight();
+        break;
+
+      case 'keyLeft':
+        this.moveCursorLeft();
         break;
 
       default:
@@ -200,6 +246,7 @@ class VirtualKeyboard {
       pressedKey.classList.add('key_pressed');
     }
   }
+
 
   keyboardKeyUp(event) {
     switch (event.code) {
@@ -227,6 +274,67 @@ class VirtualKeyboard {
       unpressedKey.classList.remove('key_pressed');
     }
   }
-}
 
+
+  moveCursorLeft() {
+    const currentCursorPosition = this.getCaretPosition();
+    if (currentCursorPosition.start > 0 && currentCursorPosition.end > 0) {
+      this.elements.input.selectionStart -= 1;
+      this.elements.input.selectionEnd = this.elements.input.selectionStart;
+    }
+    setTimeout(() => this.elements.input.focus(), 0);
+  }
+
+  moveCursorRight() {
+    if (this.getCaretPosition().start <= this.elements.input.value.length) {
+      this.elements.input.selectionStart += 1;
+      this.elements.input.selectionEnd = this.elements.input.selectionStart;
+    }
+    setTimeout(() => this.elements.input.focus(), 0);
+  }
+
+
+  getCaretPosition() {
+    const ctrl = this.elements.input;
+    if (document.selection) {
+      ctrl.focus();
+      const range = document.selection.createRange();
+      const rangelen = range.text.length;
+      range.moveStart('character', -ctrl.value.length);
+      const start = range.text.length - rangelen;
+      return {
+        start,
+        end: start + rangelen,
+      };
+    }
+    if (ctrl.selectionStart || ctrl.selectionStart === '0') {
+      return {
+        start: ctrl.selectionStart,
+        end: ctrl.selectionEnd,
+      };
+    }
+    return {
+      start: 0,
+      end: 0,
+    };
+  }
+
+
+  setCaretPosition(positionObj) {
+    const { start, end } = positionObj;
+    const ctrl = this.elements.input;
+    if (ctrl.setSelectionRange) {
+      ctrl.focus();
+      ctrl.setSelectionRange(start, end);
+    } else if (ctrl.createTextRange) {
+      const range = ctrl.createTextRange();
+      range.collapse(true);
+      range.moveEnd('character', end);
+      range.moveStart('character', start);
+      range.select();
+    }
+    ctrl.focus();
+  }
+
+}
 export default VirtualKeyboard;

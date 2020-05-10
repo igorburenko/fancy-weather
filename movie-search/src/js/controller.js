@@ -9,6 +9,7 @@ import {
   showSearchSpinner,
   showSwiperLoader,
   hideSwiperLoader,
+  rotatePoster, createPosterBackField,
 } from './view';
 import VirtualKeyboard from './keyboard';
 
@@ -17,6 +18,7 @@ let pageResults = 0;
 let searchUrl = 'https://www.omdbapi.com/?apikey=4af4c20c&s=terminator&page=';
 let mySwiper = createSwiperInstance();
 let lastSearchQuery = 'terminator';
+console.log('Click to the card for additional functionality');
 
 const keyboard = new VirtualKeyboard();
 keyboard.init();
@@ -39,7 +41,7 @@ function searchMovie(url = searchUrl, page = curPage) {
   //  выводятся в область уведомления об ошибке
   // TODO: остановка лоадеров при ошибке
     .then((body) => {
-      console.log(body);
+      // console.log(body);
       if (body.Response === 'True') {
         if (curPage === 1) {
           showSwiperLoader();
@@ -130,6 +132,7 @@ function createSwiperInstance() {
     },
     on: {
       imagesReady: () => pictureOnLoad(),
+      click: onClickSlider,
       progress(data) {
         if (data === 1 && curPage < pageResults) {
           curPage += 1;
@@ -140,11 +143,29 @@ function createSwiperInstance() {
   });
 }
 
+async function onClickSlider(event) {
+  let posterId = event.path.filter(el => (el.dataset && el.dataset.name === 'poster'));
+  if (posterId.length) {
+    posterId = posterId[0].id;
+    const currentPoster = document.getElementById(posterId);
+    if (currentPoster.dataset.loaded) return rotatePoster(posterId);
+
+    const idGetUrl = `https://www.omdbapi.com/?i=${posterId}&plot=full&apikey=4af4c20c`;
+    const cardData = await getData(idGetUrl).then(data => data);
+    createPosterBackField(cardData);
+    currentPoster.dataset.loaded = '1';
+    rotatePoster(posterId);
+  }
+}
+
 function pictureOnLoad() {
   hideSearchSpinner();
   hideSwiperLoader();
 }
 
+// TODO: подключён jest, написаны 2-3 юнит-теста (+10)
+// TODO: ошибки, возникающие во время выполнения запросов к API, обрабатываются
+//  и выводятся в область уведомления об ошибках +1
 export {
   getRateById, searchMovie, startSearch, mySwiper,
 };
