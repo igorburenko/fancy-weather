@@ -57,6 +57,11 @@
   border-radius: 5px;
   transform-style: preserve-3d;
   transition: .3s ease;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 4px 8px 1px rgba(255, 255, 255, 0.7);
+  }
 }
 
 .slider__poster-img {
@@ -88,7 +93,7 @@
   left: 0;
   width: 250px;
   height: 370px;
-  padding-bottom: 10px;
+  padding-bottom: 13px;
 }
 
 .slider-back__background {
