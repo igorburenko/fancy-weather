@@ -146,11 +146,22 @@ function createSwiperInstance() {
   });
 }
 
+function searchTarget(target) {
+  while (target !== document) {
+    if (target.dataset.name === 'poster') {
+      return target;
+    }
+    target = target.parentNode;
+  }
+  return null;
+}
+
+
 async function onClickSlider(event) {
   try {
-    let posterId = event.path.filter(el => (el.dataset && el.dataset.name === 'poster'));
-    if (posterId.length) {
-      posterId = posterId[0].id;
+    let posterId = searchTarget(event.target);
+    if (posterId) {
+      posterId = posterId.id;
       const currentPoster = document.getElementById(posterId);
       if (currentPoster.dataset.loaded) return rotatePoster(posterId);
 
