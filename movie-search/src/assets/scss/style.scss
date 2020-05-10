@@ -103,6 +103,10 @@ section,
     }
   }
   @media screen and (max-width: 500px) {
+    .keyboard__wrapper{
+      width: 100%;
+      font-size: 15px;
+    }
     .header__title {
       font-size: 30px;
     }
