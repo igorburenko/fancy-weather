@@ -246,6 +246,31 @@ this.state = {value: 0};
 					<p class="fragment fade-in">React merges the current state and the object you provided</p>
 				</section>
 				<section>
+					<pre><code class="hljs" style="font-size: 14px; line-height: 18px; word-wrap: break-word;" data-trim data-line-numbers="">
+constructor(props) {
+	super(props);
+		this.state = {
+			permissions: [],
+			users: []
+	};
+}
+
+	componentDidMount() {
+		fetchPermissions().then(response => {
+			this.setState({
+				permissions: response.permissions
+		});
+	});
+
+	fetchUsers().then(response => {
+		this.setState({
+			users: response.users
+		});
+	});
+}
+					</code></pre>
+				</section>
+				<section>
 					<p>The state is called local or encapsulated</p>
 				</section>
 				<section>
