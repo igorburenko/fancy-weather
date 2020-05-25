@@ -161,20 +161,9 @@ class VirtualKeyboard {
 
   toggleVirtualKeys() {
     this.virtualKeyboardLayout = document.querySelector('.keyboard__keys');
-    this.virtualKeyboardLayout.addEventListener('mousedown', (event) => {
-      if (event.target.tagName === 'BUTTON') {
-        this.keyboardKeyDown({code: event.target.id, key: event.target.innerText});
-      } else if (event.target.tagName === 'SPAN') {
-        this.keyboardKeyDown({code: event.target.parentNode.id});
-      }
-    });
-    this.virtualKeyboardLayout.addEventListener('mouseup', (event) => {
-      if (event.target.tagName === 'BUTTON') {
-        this.keyboardKeyUp({code: event.target.id, key: event.target.innerText});
-      } else if (event.target.tagName === 'SPAN') {
-        this.keyboardKeyUp({code: event.target.parentNode.id});
-      }
-    });
+    this.virtualKeyboardLayout.addEventListener('mousedown', event => this.mouseEventHandler(event));
+    this.virtualKeyboardLayout.addEventListener('mouseup', event => this.mouseEventHandler(event));
+
     this.virtualKeyboardLayout.addEventListener('mouseout', (event) => {
       if (event.target.tagName === 'BUTTON') {
         const unpressedKey = document.getElementById(event.fromElement.id);
@@ -183,6 +172,15 @@ class VirtualKeyboard {
         }
       }
     });
+  }
+
+  mouseEventHandler(event) {
+    const handler = event.type === 'mousedown' ? this.keyboardKeyDown : this.keyboardKeyUp;
+    if (event.target.tagName === 'BUTTON') {
+      handler.call(this, { code: event.target.id, key: event.target.innerText });
+    } else if (event.target.tagName === 'SPAN') {
+      handler.call(this, { code: event.target.parentNode.id });
+    }
   }
 
   printToInput(key) {

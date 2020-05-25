@@ -49,7 +49,8 @@ function searchMovie(url = searchUrl, page = curPage) {
           mySwiper.destroy(false, false);
           mySwiper = createSwiperInstance();
         }
-        pageResults = Math.ceil(body.totalResults / 10);
+        const resultsPerRequest = 10;
+        pageResults = Math.ceil(body.totalResults / resultsPerRequest);
         addNewSliderItems(body.Search);
       } else {
         showWarning(body.Error);
