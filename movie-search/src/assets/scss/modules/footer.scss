@@ -14,14 +14,14 @@
   svg {
     fill: rgba(255, 255, 255, 0.3);
   }
-}
+  
+  .footer__git-wrapper {
+    display: flex;
+    align-items: center;
+  }
 
-.footer__git-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.footer__github-text {
-  margin-left: 10px;
-  color: rgba(255, 255, 255, 0.3);
+  .footer__github-text {
+    margin-left: 10px;
+    color: rgba(255, 255, 255, 0.3);
+  }
 }
