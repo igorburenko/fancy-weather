@@ -9,23 +9,19 @@
   font-weight: 400;
   font-size: 13px;
   margin-top: auto;
-
   z-index: 50;
+  
   svg {
     fill: rgba(255, 255, 255, 0.3);
   }
-}
+  
+  .footer__git-wrapper {
+    display: flex;
+    align-items: center;
+  }
 
-.footer__rs {
-
-}
-
-.footer__git-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.footer__github-text {
-  margin-left: 10px;
-  color: rgba(255, 255, 255, 0.3);
+  .footer__github-text {
+    margin-left: 10px;
+    color: rgba(255, 255, 255, 0.3);
+  }
 }
