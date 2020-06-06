@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import './index.css';
-// import App from './App';
+import App from './components/app';
+import 'normalize.css';
+import './vars.scss';
+require('typeface-montserrat');
 
 ReactDOM.render(
   <React.StrictMode>
-    {/*<App />*/}
-    <div>hello</div>
+      <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );

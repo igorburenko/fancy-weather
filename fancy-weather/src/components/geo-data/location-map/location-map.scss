@@ -1,0 +1,32 @@
+.location-map {
+
+  .mapContainer {
+    //margin-top: 25px;
+  }
+
+  .mapContainer {
+    width: 320px;
+    height: 365px;
+    //position: absolute;
+    //top: 0;
+    //left: 0;
+    clip-path: url("#clipPath");
+  }
+
+  .svg-shape {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 360px;
+  }
+
+  #clipPath {
+    transform: translate(76%, 89%) scale(2.1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}

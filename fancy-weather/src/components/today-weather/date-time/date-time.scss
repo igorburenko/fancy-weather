@@ -1,0 +1,12 @@
+.today-weather__date {
+  display: flex;
+  margin-top: 8px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+
+  .today-weather__time {
+    margin-left: 20px;
+  }
+}

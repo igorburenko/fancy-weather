@@ -1,0 +1,7 @@
+.weather-forecast {
+  display: flex;
+
+  .day-forecast:not(:last-child) {
+    margin-right: 25px;
+  }
+}

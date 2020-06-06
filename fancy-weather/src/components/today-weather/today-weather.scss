@@ -1,0 +1,21 @@
+@import "src/vars";
+
+
+.today-weather {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: center;
+  font-family: $main-font-family;
+  color: $main-white-font-color;
+  margin-top: 60px;
+
+  .today-weather__location {
+    display: flex;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 44px;
+    line-height: 54px;
+    text-transform: uppercase;
+  }
+}

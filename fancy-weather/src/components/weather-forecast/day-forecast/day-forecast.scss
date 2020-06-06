@@ -1,0 +1,30 @@
+@import "src/vars";
+
+.day-forecast {
+  .day-forecast__day {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 27px;
+    text-transform: uppercase;
+    color: $main-white-font-color;
+    font-family: $main-font-family;
+  }
+
+  .day-forecast__weather {
+    display: flex;
+
+    .day-forecast__temperature {
+      font-weight: 600;
+      font-size: 80px;
+      line-height: 98px;
+      text-transform: uppercase;
+      color: $main-white-font-color;
+      font-family: $main-font-family;
+      margin-right: -25px;
+    }
+
+    img {
+      width: 80px;
+    }
+  }
+}

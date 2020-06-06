@@ -1,0 +1,12 @@
+.main-screen__wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  min-height: min-content;
+
+  .main-screen__forecast {
+    display: flex;
+    flex-direction: column;
+    height: min-content;
+  }
+}

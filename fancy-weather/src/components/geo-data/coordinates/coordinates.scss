@@ -1,0 +1,12 @@
+@import "src/vars";
+
+.coordinates {
+  font-family: $main-font-family;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: right;
+  text-transform: capitalize;
+  color: $main-white-font-color;
+  margin-top: 20px;
+}
