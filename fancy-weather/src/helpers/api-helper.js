@@ -1,6 +1,6 @@
-const openWeatherForecastApiURL = 'http://api.openweathermap.org/data/2.5/onecall';
+const openWeatherForecastApiURL = 'https://api.openweathermap.org/data/2.5/onecall';
 const apiKey = '8c7c9e8305236e64ef51bf87c5594447';
-const mapboxGeocodingUrl = 'http://api.mapbox.com/geocoding/v5/mapbox.places/';
+const mapboxGeocodingUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
 const mapboxApiKey = 'sk.eyJ1IjoiaWdvcmJ1cmVua28iLCJhIjoiY2tiMHMycXk4MGF4dDJ5bXRub3ZlcHB0aCJ9.5nVUVCmH5Lydtnj8rQXqFQ';
 const ipiinfoAccessToken = '038c551d008b12';
 const unsplashKey = 'FfgsqzaPmoLkizyMEcNZt9QHmoQLau4h1iUmWNzINFE';
@@ -19,13 +19,13 @@ export const getCity = async (cityName) => {
 };
 
 export const getUserLocation = async () => {
-  const url = `http://ipinfo.io/json?token=${ipiinfoAccessToken}`;
+  const url = `https://ipinfo.io/json?token=${ipiinfoAccessToken}`;
   const apiResponse = await fetch(url);
   return await apiResponse.json();
 };
 
 export const getBackgroundImage = async () => {
-  const url = `http://api.unsplash.com/photos/random?orientation=landscape&per_page=1&query=nature&client_id=${unsplashKey}`;
+  const url = `https://api.unsplash.com/photos/random?orientation=landscape&per_page=1&query=nature&client_id=${unsplashKey}`;
   const apiResponse = await fetch(url);
   return await apiResponse.json();
 };
