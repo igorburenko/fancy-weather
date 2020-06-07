@@ -1,92 +1,93 @@
-import React, {useContext, useEffect, useCallback, useState} from 'react';
+import React, {useContext, useEffect, useCallback, useState, useRef} from 'react';
 import './controls.scss';
 import {Autorenew, Mic} from '@material-ui/icons'
 import {WeatherContext} from '../../contexts/weather-context';
 import {StateContext} from '../../contexts/state-context';
-import {getWeather, getCity, getForecast} from '../../helpers/api-helper';
+import {getCity, getForecast, getUserLocation} from '../../helpers/api-helper';
 import {UnitSwitch} from './unit-switch/unit-switch';
-import {cityContext} from '../app/app';
+import {celsiusUnitsContext, cityContext} from '../app/app';
+import {COUNTRIES} from '../../constants/country-codes';
 
 
-const loadCityWeather = (isCelsius, city = 'odessa') => {
-  return getWeather(city, isCelsius);
-};
-
-const loadForecast = (isCelsius = true, lat, lon) => {
-  return getForecast(lat, lon, true);
-};
 
 const Controls = () => {
   const [weatherContext, setWeatherContext] = useContext(WeatherContext);
-  const [selectedCity, setSelectedCity] = useContext(cityContext);
-  const [controlsContext, setControlsContext] = useContext(StateContext);
+  const [, setSelectedCity] = useContext(cityContext);
+  const [, setControlsContext] = useContext(StateContext);
+  const [isCelsius, setIsCelsius] = useContext(celsiusUnitsContext);
+
   const [language, setLanguage] = useState('en');
-  const [isCelsius, setIsCelsius] = useState(true);
   const [currentCity, setCurrentCity] = useState('');
   const [cityList, setCityList] = useState([]);
   const [dropDownCity, setDropdownCity] = useState([]);
+  let reloadStyle = useRef({transform: 'rotate(0deg)'});
+
+  const changeLoadingState = useCallback((loading) => {
+    setControlsContext(state => ({
+      ...state,
+      isReload: loading,
+    }));
+  }, [setControlsContext]);
 
   const changeLang = useCallback((event) => {
       event.persist();
       console.log(event.target.value);
       setLanguage(event.target.value);
-    }, [setLanguage]
-  );
+    }, [setLanguage]);
 
   const changeUnits = useCallback((event) => {
       event.persist();
-      console.log(event.target.checked);
       setIsCelsius(event.target.checked);
-    }, [setIsCelsius]
-  );
+      localStorage.units = event.target.checked;
+    }, [setIsCelsius]);
 
   const submitSearch = useCallback((event) => {
       event.persist();
       event.preventDefault();
       getCity(event.target[0].value).then(cities => setCityList(cities));
-      // setCurrentCity(event.target[0].value);
-    }, []
-  );
+    }, []);
 
   const resetDropdownCity = useCallback((event) => {
     event.persist();
     setDropdownCity(null);
-    // console.log(cityList.features[event._targetInst.key].place_name.split(','));
     setCurrentCity(cityList.features[event._targetInst.key]);
     setSelectedCity(cityList.features[event._targetInst.key].place_name.split(','))
   }, [cityList.features, setSelectedCity]);
 
+  const reload = useCallback(() => {
+    setCurrentCity( {...currentCity});
+    reloadStyle.current = {transform: 'rotate(360deg)'};
+  }, [currentCity, setCurrentCity]);
+
+  useEffect(() => {
+    getUserLocation().then(location => {
+      const coords = location.loc.split(',');
+      setSelectedCity([location.city, '', COUNTRIES[location.country]]);
+      setCurrentCity({
+        center: [coords[1], coords[0]],
+      })
+    })
+  }, []);
+
   useEffect(() => {
       if (Object.keys(currentCity).length !== 0) {
-        loadForecast(isCelsius, currentCity.center[1], currentCity.center[0]).then((forecast) => setWeatherContext({forecast}));
+        getForecast(currentCity.center[1], currentCity.center[0]).then((forecast) => setWeatherContext({forecast}));
       }
-    }, [isCelsius, currentCity, setWeatherContext]
+    }, [currentCity, setWeatherContext]
   );
 
   useEffect(() => {
     if (Object.keys(cityList).length !== 0) {
       setDropdownCity(
         <div className='city-dropdown'>
-          {cityList.features.map((point, idx) => <option onClick={resetDropdownCity}
-                                                         key={idx}>{point.place_name}</option>)}
+          {cityList.features.map((point, idx) => {
+            const city = point.place_name.length > 37 ? `${point.place_name.slice(0, 36)}...` : point.place_name;
+            return <option onClick={resetDropdownCity}
+                    key={idx}>{city}</option>
+          })}
         </div>)
     }
   }, [cityList, resetDropdownCity]);
-
-  // const changeWeatherState = useCallback((stateObj) => {
-  //   console.log('Weather changed in changeWeatherState');
-  //   setWeatherContext(() => ({
-  //     ...stateObj
-  //   }));
-  // }, [setWeatherContext]);
-
-  const changeLoadingState = useCallback((loading) => {
-    console.log('Global changed in controls changeLoadingState');
-    setControlsContext(state => ({
-      ...state,
-      isReload: loading,
-    }));
-  }, [setControlsContext]);
 
   useEffect(() => {
     if (Object.keys(weatherContext).length !== 0) {
@@ -94,14 +95,11 @@ const Controls = () => {
     }
   }, [weatherContext, changeLoadingState]);
 
-
   return (
     <section className="controls">
       <div className="controls__left-side">
-        <button className="controls__reload"
-          // onClick={reload}
-        >
-          <Autorenew className="reload__icon"/>
+        <button className="controls__reload" onClick={reload}>
+          <Autorenew style={reloadStyle.current} className="reload__icon"/>
         </button>
         <select className="controls__language" value={language} onChange={changeLang}>
           <option value="en">EN</option>

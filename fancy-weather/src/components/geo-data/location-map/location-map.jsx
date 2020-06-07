@@ -2,13 +2,13 @@ import React, {useContext, useEffect, useState, useRef} from 'react';
 import './location-map.scss';
 import mapboxgl from 'mapbox-gl';
 import {WeatherContext} from '../../../contexts/weather-context';
-import Loader from '../../loader';
+// import Loader from '../../loader';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiaWdvcmJ1cmVua28iLCJhIjoiY2tiMHMwNm5wMGF2OTJ5czlxNzJwcGJkeSJ9.TXo96uIXGna4xfjdPEwtgA';
 
 const LocationMap = () => {
   const [weatherContext] = useContext(WeatherContext);
-  const [isLoaded, setIsLoaded] = useState(true);
+  // const [isLoaded, setIsLoaded] = useState(true);
 
   const [mapState, setMapState] = useState({
     lng: 30.73,

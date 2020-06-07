@@ -1,32 +1,29 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import './date-time.scss'
 import { WEEK_DAYS, MONTH } from '../../../constants/dates';
+import {transformTime} from '../../../helpers/utils';
 
-const transformTime = (value) => {
-  // console.log('time transform');
-  return value < 10 ? `0${value}` : value
-};
+
+const weekDay = (date) => WEEK_DAYS[date.getDay()];
+const day = (date) => date.getDate();
+const month = (date) => MONTH[date.getMonth()];
+const hour = (date) => transformTime(date.getHours());
+const minutes = (date) => transformTime(date.getMinutes());
+
 
 const DateTime = () => {
   const [date, setDate] = useState(new Date());
 
-  const weekDay = useCallback( () => WEEK_DAYS[date.getDay()], [date]);
-  const day = useCallback( () => date.getDate(), [date]);
-  const month = useCallback( () => MONTH[date.getMonth()], [date]);
-  const hour = useCallback(() => transformTime(date.getHours()), [date]);
-  const minutes = useCallback(() => transformTime(date.getMinutes()), [date]);
-
-
   useEffect(() => {
-    const timeout = setInterval(() => setDate(new Date()), 30000);
+    const timeout = setInterval(() => setDate(new Date()), 1000);
     return () => clearInterval(timeout);
   }, [setDate]);
 
 
   return (
      <div className="today-weather__date">
-        <span>{`${weekDay()} ${day()} ${month()}`}</span>
-        <span className='today-weather__time'>{`${hour()}:${minutes()}`}</span>
+        <span>{`${weekDay(date)} ${day(date)} ${month(date)}`}</span>
+        <span className='today-weather__time'>{`${hour(date)}:${minutes(date)}`}</span>
       </div>
   )
 };

@@ -1,13 +1,16 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './weather-forecast.scss'
 import DayForecast from './day-forecast'
 import {WeatherContext} from '../../contexts/weather-context';
-import {getForecast, getWeather} from '../../helpers/api-helper';
-import { WEEK_DAYS } from '../../constants/dates';
+import {celsiusUnitsContext} from '../app/app';
+import {WEEK_DAYS} from '../../constants/dates';
+import {checkTempUnits} from '../../helpers/utils';
 
 const millisInSecond = 1000;
+
 const WeatherForecast = () => {
   const [weatherContext] = useContext(WeatherContext);
+  const [isCelsius] = useContext(celsiusUnitsContext);
   const [forecastElem, setForecastElem] = useState([]);
 
   useEffect(() => {
@@ -15,15 +18,16 @@ const WeatherForecast = () => {
       setForecastElem(
         <section className="weather-forecast">
           {weatherContext.forecast.daily.slice(1, 4).map((dayForecast, idx) => {
-            return <DayForecast day={WEEK_DAYS[new Date(dayForecast.dt * millisInSecond).getDay()]}
-                         key={idx}
-                         temp={Math.round(dayForecast.temp.day)}
-                         iconCode={dayForecast.weather[0].icon}/>
-          }
-                         )}
+
+              return <DayForecast day={WEEK_DAYS[new Date(dayForecast.dt * millisInSecond).getDay()]}
+                                  key={idx}
+                                  temp={Math.round(checkTempUnits(dayForecast.temp.day, isCelsius))}
+                                  iconCode={dayForecast.weather[0].icon}/>
+            }
+          )}
         </section>)
     }
-  }, [weatherContext.forecast.daily, setForecastElem]);
+  }, [isCelsius, weatherContext.forecast.daily, setForecastElem]);
 
 
   return (

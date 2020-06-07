@@ -39,6 +39,18 @@ $background-controls-inactive: rgba(76, 82, 85, 0.4);
       cursor: pointer;
       outline: none;
       @include controls-font;
+
+      .reload__icon {
+        transition: .8s ease;
+      }
+
+      .rotate_360 {
+        transform: rotate(360deg);
+      }
+
+      .no-transition {
+        transition: none !important;
+      }
     }
 
     .controls__language {
